@@ -4,7 +4,8 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity paint_top is
     Port ( 
-        i_clk_100mhz : in STD_LOGIC;
+        i_clk_100mhz_p : in STD_LOGIC;
+        i_clk_100mhz_n : in STD_LOGIC;
         i_reset_n    : in STD_LOGIC; -- Fizyczny przycisk reset na płycie (aktywny stanem niskim)
 
         o_hdmi_d0_p  : out STD_LOGIC;
@@ -19,6 +20,17 @@ entity paint_top is
 end paint_top;
 
 architecture structural of paint_top is
+    component clk_wiz
+        port (
+            clk_25MHz : out STD_LOGIC;
+            clk_125MHz : out STD_LOGIC;
+            reset : in STD_LOGIC;
+            locked : out STD_LOGIC;
+            clk_in1_p : in STD_LOGIC;
+            clk_in1_n : in STD_LOGIC
+        );
+    end component;
+
     signal s_clk_25mhz   : STD_LOGIC;
     signal s_clk_125mhz  : STD_LOGIC;
     signal s_pll_locked  : STD_LOGIC;
@@ -36,13 +48,18 @@ architecture structural of paint_top is
 
 begin
     s_sys_reset_n <= i_reset_n and s_pll_locked;
-
-    u_clk_wiz: entity work.clk_wiz
-        port map (
-            clk_in1    => i_clk_100mhz,
-            clk_25MHz  => s_clk_25mhz,
+    
+    u_clk_wiz: clk_wiz
+        port map ( 
+            -- Clock out ports  
+            clk_25MHz => s_clk_25mhz,
             clk_125MHz => s_clk_125mhz,
-            locked     => s_pll_locked
+            -- Status and control signals                
+            reset => i_reset_n,
+            locked => s_pll_locked,
+            -- Clock in ports
+            clk_in1_p => i_clk_100mhz_p,
+            clk_in1_n => i_clk_100mhz_n
         );
 
     u_video_timing: entity work.video_timing
