@@ -1,0 +1,16 @@
+set_property PACKAGE_PIN D7  [get_ports {i_clk_100mhz_p}]
+set_property PACKAGE_PIN D6  [get_ports {i_clk_100mhz_n}]
+set_property IOSTANDARD LVDS [get_ports i_clk_100mhz_*]
+
+set_property PACKAGE_PIN AB6 [get_ports {i_reset_n}]
+set_property IOSTANDARD LVCMOS12 [get_ports i_reset_n]
+
+set_property PACKAGE_PIN AF10 [get_ports {o_hdmi_d0_p}]
+set_property PACKAGE_PIN AE10 [get_ports {o_hdmi_d0_n}]
+set_property PACKAGE_PIN AH11 [get_ports {o_hdmi_d1_p}]
+set_property PACKAGE_PIN AH12 [get_ports {o_hdmi_d1_n}]
+set_property PACKAGE_PIN AF11 [get_ports {o_hdmi_d2_p}]
+set_property PACKAGE_PIN AG11 [get_ports {o_hdmi_d2_n}]
+set_property PACKAGE_PIN AD12 [get_ports {o_hdmi_clk_p}]
+set_property PACKAGE_PIN AC12 [get_ports {o_hdmi_clk_n}]
+set_property IOSTANDARD LVCMOS33 [get_ports o_hdmi_*]

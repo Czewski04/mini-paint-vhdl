@@ -4,7 +4,7 @@
 
 set TIME_start [clock seconds] 
 namespace eval ::optrace {
-  variable script "C:/Users/wikto/Coding/ucisw2-projekt/mini-paint/mini-paint.runs/synth_1/paint_top.tcl"
+  variable script "C:/Users/lab/Desktop/mini-paint/mini-paint.runs/synth_1/paint_top.tcl"
   variable category "vivado_synth"
 }
 
@@ -56,16 +56,10 @@ if {$::dispatch::connected} {
 }
 
 OPTRACE "synth_1" START { ROLLUP_AUTO }
-set_param checkpoint.writeSynthRtdsInDcp 1
-set_param power.BramSDPPropagationFix 1
+set_param general.maxThreads 6
+set_param chipscope.maxJobs 3
 set_param general.usePosixSpawnForFork 1
-set_param physdb.placeDBImplUsesPlaceStorage 0
-set_param power.enableUnconnectedCarry8PinPower 1
-set_param power.enableCarry8RouteBelPower 1
-set_param power.enableLutRouteBelPower 1
-set_msg_config -id {Common 17-41} -limit 10000000
-set_msg_config -id {Synth 8-256} -limit 10000
-set_msg_config -id {Synth 8-638} -limit 10000
+set_param xicom.use_bs_reader 1
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xczu3eg-sfvc784-2-e
 
@@ -73,28 +67,31 @@ set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
 set_param synth.vivado.isSynthRun true
 set_msg_config -source 4 -id {IP_Flow 19-2162} -severity warning -new_severity info
-set_property webtalk.parent_dir C:/Users/wikto/Coding/ucisw2-projekt/mini-paint/mini-paint.cache/wt [current_project]
-set_property parent.project_path C:/Users/wikto/Coding/ucisw2-projekt/mini-paint/mini-paint.xpr [current_project]
+set_property webtalk.parent_dir C:/Users/lab/Desktop/mini-paint/mini-paint.cache/wt [current_project]
+set_property parent.project_path C:/Users/lab/Desktop/mini-paint/mini-paint.xpr [current_project]
 set_property XPM_LIBRARIES XPM_CDC [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language VHDL [current_project]
+set_property board_part_repo_paths {C:/Xilinx/Board_repo} [current_project]
 set_property board_part realdigital.org:aup-zu3-8gb:part0:1.0 [current_project]
-set_property ip_output_repo c:/Users/wikto/Coding/ucisw2-projekt/mini-paint/mini-paint.cache/ip [current_project]
+set_property ip_repo_paths c:/Xilinx/IP_Repo [current_project]
+update_ip_catalog
+set_property ip_output_repo c:/Users/lab/Desktop/mini-paint/mini-paint.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_vhdl -library xil_defaultlib {
-  C:/Users/wikto/Coding/ucisw2-projekt/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/HDMI_TX/HDMI_TX_wrap.vhd
-  C:/Users/wikto/Coding/ucisw2-projekt/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/img_gen.vhd
-  C:/Users/wikto/Coding/ucisw2-projekt/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/video_timing.vhd
-  C:/Users/wikto/Coding/ucisw2-projekt/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/paint_top.vhd
+  C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/HDMI_TX/HDMI_TX_wrap.vhd
+  C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/img_gen.vhd
+  C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/video_timing.vhd
+  C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/paint_top.vhd
 }
-read_ip -quiet c:/Users/wikto/Coding/ucisw2-projekt/mini-paint/mini-paint.srcs/sources_1/ip/clk_wiz/clk_wiz.xci
-set_property used_in_implementation false [get_files -all c:/Users/wikto/Coding/ucisw2-projekt/mini-paint/mini-paint.gen/sources_1/ip/clk_wiz/clk_wiz_board.xdc]
-set_property used_in_implementation false [get_files -all c:/Users/wikto/Coding/ucisw2-projekt/mini-paint/mini-paint.gen/sources_1/ip/clk_wiz/clk_wiz.xdc]
-set_property used_in_implementation false [get_files -all c:/Users/wikto/Coding/ucisw2-projekt/mini-paint/mini-paint.gen/sources_1/ip/clk_wiz/clk_wiz_ooc.xdc]
+read_ip -quiet c:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.xci
+set_property used_in_implementation false [get_files -all c:/Users/lab/Desktop/mini-paint/mini-paint.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_board.xdc]
+set_property used_in_implementation false [get_files -all c:/Users/lab/Desktop/mini-paint/mini-paint.gen/sources_1/ip/clk_wiz_0/clk_wiz_0.xdc]
+set_property used_in_implementation false [get_files -all c:/Users/lab/Desktop/mini-paint/mini-paint.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_ooc.xdc]
 
-read_edif C:/Users/wikto/Coding/ucisw2-projekt/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/HDMI_TX/HDMI_TX.edf
+read_edif C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/HDMI_TX/HDMI_TX.edf
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the
@@ -104,9 +101,12 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
+read_xdc C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/constrs_1/new/zu3.xdc
+set_property used_in_implementation false [get_files C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/constrs_1/new/zu3.xdc]
+
 set_param ips.enableIPCacheLiteLoad 1
 
-read_checkpoint -auto_incremental -incremental C:/Users/wikto/Coding/ucisw2-projekt/mini-paint/mini-paint.srcs/utils_1/imports/synth_1/paint_top.dcp
+read_checkpoint -auto_incremental -incremental C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/utils_1/imports/synth_1/paint_top.dcp
 close [open __synthesis_is_running__ w]
 
 OPTRACE "synth_design" START { }

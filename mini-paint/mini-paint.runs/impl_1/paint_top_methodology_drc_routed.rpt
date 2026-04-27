@@ -1,0 +1,53 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
+| Date         : Tue Mar 31 09:59:16 2026
+| Host         : Lab016-02 running 64-bit major release  (build 9200)
+| Command      : report_methodology -file paint_top_methodology_drc_routed.rpt -pb paint_top_methodology_drc_routed.pb -rpx paint_top_methodology_drc_routed.rpx
+| Design       : paint_top
+| Device       : xczu3eg-sfvc784-2-e
+| Speed File   : -2
+| Design State : Fully Routed
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Report Methodology
+
+Table of Contents
+-----------------
+1. REPORT SUMMARY
+2. REPORT DETAILS
+
+1. REPORT SUMMARY
+-----------------
+            Netlist: netlist
+          Floorplan: design_1
+      Design limits: <entire design considered>
+             Max checks: <unlimited>
+             Checks found: 2
++---------+----------+---------------------------------------------------------+--------+
+| Rule    | Severity | Description                                             | Checks |
++---------+----------+---------------------------------------------------------+--------+
+| LUTAR-1 | Warning  | LUT drives async reset alert                            | 1      |
+| CLKC-24 | Advisory | MMCME4 with ZHOLD drives sequential IO not with CLKOUT0 | 1      |
++---------+----------+---------------------------------------------------------+--------+
+
+2. REPORT DETAILS
+-----------------
+LUTAR-1#1 Warning
+LUT drives async reset alert  
+LUT cell u_video_timing/i_wrap_i_1, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_hdmi_tx/i_wrap/TMDS_0/i_ODDRE_N/RST,
+u_hdmi_tx/i_wrap/TMDS_0/i_ODDRE_P/RST,
+u_hdmi_tx/i_wrap/TMDS_1/i_ODDRE_N/RST,
+u_hdmi_tx/i_wrap/TMDS_1/i_ODDRE_P/RST,
+u_hdmi_tx/i_wrap/TMDS_2/i_ODDRE_N/RST,
+u_hdmi_tx/i_wrap/TMDS_2/i_ODDRE_P/RST,
+u_hdmi_tx/i_wrap/TMDS_3/i_ODDRE_N/RST
+u_hdmi_tx/i_wrap/TMDS_3/i_ODDRE_P/RST. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+CLKC-24#1 Advisory
+MMCME4 with ZHOLD drives sequential IO not with CLKOUT0  
+The MMCME4 cell u_clk_wiz_0/inst/mmcme4_adv_inst has COMPENSATION value ZHOLD, but CLKOUT1 output drives sequential IO cells. In order to achieve insertion delay and phase-alignment for the IO sequential cells, CLKOUT0 must be used.
+Related violations: <none>
+
+
