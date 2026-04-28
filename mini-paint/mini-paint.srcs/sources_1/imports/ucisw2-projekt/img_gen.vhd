@@ -15,7 +15,8 @@ entity img_gen is
            RstN : in STD_LOGIC;
            We   : out STD_LOGIC;
            Addr : out STD_LOGIC_VECTOR (18 downto 0);
-           Data : out STD_LOGIC_VECTOR (7 downto 0)
+           Data : out STD_LOGIC_VECTOR (7 downto 0);
+           InitDone : out STD_LOGIC
 		);
 end img_gen;
 
@@ -24,7 +25,6 @@ architecture Behavioral of img_gen is
 
     constant MODE_WIDTH  : integer := 640;
     constant MODE_HEIGHT : integer := 480;
-
     signal x_cnt : unsigned(9 downto 0) := (others => '0');
     signal y_cnt : unsigned(9 downto 0) := (others => '0');
     signal done  : std_logic := '0';
@@ -45,6 +45,7 @@ begin
     Data <= r3 & g3 & b2;
 
     We <= not done;
+    InitDone <= done;
 
     process(Clk)
     begin

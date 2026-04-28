@@ -8,6 +8,9 @@ entity paint_top is
         i_clk_100mhz_n : in STD_LOGIC;
         i_reset_n    : in STD_LOGIC;
 
+        io_ps2_data  : inout STD_LOGIC;
+        io_ps2_clk   : inout STD_LOGIC;
+
         o_hdmi_d0_p  : out STD_LOGIC;
         o_hdmi_d0_n  : out STD_LOGIC;
         o_hdmi_d1_p  : out STD_LOGIC;
@@ -24,6 +27,7 @@ architecture structural of paint_top is
         port (
             clk_25MHz : out STD_LOGIC;
             clk_125MHz : out STD_LOGIC;
+            clk_100MHz : out STD_LOGIC;
             locked : out STD_LOGIC;
             clk_in1_p : in STD_LOGIC;
             clk_in1_n : in STD_LOGIC
@@ -49,6 +53,7 @@ architecture structural of paint_top is
 
     signal s_clk_25mhz   : STD_LOGIC;
     signal s_clk_125mhz  : STD_LOGIC;
+    signal s_clk_100mhz  : STD_LOGIC;
     signal s_pll_locked  : STD_LOGIC;
     signal s_sys_reset_n : STD_LOGIC;
     
@@ -63,43 +68,108 @@ architecture structural of paint_top is
     signal s_video_vsync_d2 : STD_LOGIC;
     signal s_pixel_x     : STD_LOGIC_VECTOR(9 downto 0);
     signal s_pixel_y     : STD_LOGIC_VECTOR(9 downto 0);
+    signal s_pixel_x_d1  : STD_LOGIC_VECTOR(9 downto 0);
+    signal s_pixel_x_d2  : STD_LOGIC_VECTOR(9 downto 0);
+    signal s_pixel_y_d1  : STD_LOGIC_VECTOR(9 downto 0);
+    signal s_pixel_y_d2  : STD_LOGIC_VECTOR(9 downto 0);
     
     signal s_color_r     : STD_LOGIC_VECTOR(7 downto 0);
     signal s_color_g     : STD_LOGIC_VECTOR(7 downto 0);
     signal s_color_b     : STD_LOGIC_VECTOR(7 downto 0);
 
 
-    signal s_mouse_we    : STD_LOGIC;
     signal s_write_addr  : STD_LOGIC_VECTOR(18 downto 0);
     signal s_write_data  : STD_LOGIC_VECTOR(7 downto 0);
     signal s_read_addr   : STD_LOGIC_VECTOR(18 downto 0);
     signal s_read_data   : STD_LOGIC_VECTOR(7 downto 0);
+
+    signal s_mouse_init_ok  : STD_LOGIC;
+    signal s_mouse_data_rdy : STD_LOGIC;
+    signal s_mouse_status   : STD_LOGIC_VECTOR(7 downto 0);
+    signal s_mouse_dx       : STD_LOGIC_VECTOR(7 downto 0);
+    signal s_mouse_dy       : STD_LOGIC_VECTOR(7 downto 0);
+    signal s_cursor_x       : unsigned(9 downto 0) := to_unsigned(320, 10);
+    signal s_cursor_y       : unsigned(9 downto 0) := to_unsigned(240, 10);
+    signal s_mouse_data_rdy_last : STD_LOGIC := '0';
 
     signal s_fb_ena       : STD_LOGIC;
     signal s_fb_enb       : STD_LOGIC;
     signal s_fb_wea       : STD_LOGIC_VECTOR(0 downto 0);
     signal s_fb_web       : STD_LOGIC_VECTOR(0 downto 0);
     signal s_fb_dinb      : STD_LOGIC_VECTOR(7 downto 0);
+    signal s_init_we      : STD_LOGIC;
+    signal s_init_addr    : STD_LOGIC_VECTOR(18 downto 0);
+    signal s_init_data    : STD_LOGIC_VECTOR(7 downto 0);
+    signal s_init_done    : STD_LOGIC;
 begin
     s_sys_reset_n <= s_pll_locked and not i_reset_n;
 
     s_fb_ena <= '1';
     s_fb_enb <= '1';
-    s_fb_wea(0) <= s_mouse_we;
     s_fb_web <= (others => '0');
     s_fb_dinb <= (others => '0');
 
     s_read_addr <= std_logic_vector(resize(unsigned(s_pixel_y) * 640 + unsigned(s_pixel_x), 19));
 
-    s_color_r <= s_read_data(7 downto 5) & s_read_data(7 downto 5) & s_read_data(7 downto 6);
-    s_color_g <= s_read_data(4 downto 2) & s_read_data(4 downto 2) & s_read_data(4 downto 3);
-    s_color_b <= s_read_data(1 downto 0) & s_read_data(1 downto 0) & s_read_data(1 downto 0) & s_read_data(1 downto 0);
+
+    u_ps2_mouse: entity work.PS2_Mouse_wrap
+        port map (
+            Clk_100MHz => s_clk_100mhz,
+            Reset      => not s_sys_reset_n,
+            InitOK     => s_mouse_init_ok,
+            B1_Status  => s_mouse_status,
+            B2_X       => s_mouse_dx,
+            B3_Y       => s_mouse_dy,
+            Data_Rdy   => s_mouse_data_rdy,
+            PS2_Data   => io_ps2_data,
+            PS2_Clk    => io_ps2_clk
+        );
+
+    process(s_clk_125mhz)
+        variable dx : integer;
+        variable dy : integer;
+        variable new_x : integer;
+        variable new_y : integer;
+    begin
+        if rising_edge(s_clk_125mhz) then
+            if s_sys_reset_n = '0' then
+                s_cursor_x <= to_unsigned(320, s_cursor_x'length);
+                s_cursor_y <= to_unsigned(240, s_cursor_y'length);
+                s_mouse_data_rdy_last <= '0';
+            else
+                if s_mouse_init_ok = '1' and s_mouse_data_rdy = '1' and s_mouse_data_rdy_last = '0' then
+                    dx := to_integer(signed(s_mouse_dx));
+                    dy := to_integer(signed(s_mouse_dy));
+
+                    new_x := to_integer(s_cursor_x) + dx;
+                    new_y := to_integer(s_cursor_y) - dy;
+
+                    if new_x < 0 then
+                        new_x := 0;
+                    elsif new_x > 639 then
+                        new_x := 639;
+                    end if;
+
+                    if new_y < 0 then
+                        new_y := 0;
+                    elsif new_y > 479 then
+                        new_y := 479;
+                    end if;
+
+                    s_cursor_x <= to_unsigned(new_x, s_cursor_x'length);
+                    s_cursor_y <= to_unsigned(new_y, s_cursor_y'length);
+                end if;
+                s_mouse_data_rdy_last <= s_mouse_data_rdy;
+            end if;
+        end if;
+    end process;
     
     u_clk_wiz_0: clk_wiz_0
         port map ( 
             -- Clock out ports  
             clk_25MHz => s_clk_25mhz,
             clk_125MHz => s_clk_125mhz,
+            clk_100MHz => s_clk_100mhz,
             -- Status and control signals                
             locked => s_pll_locked,
             -- Clock in ports
@@ -120,31 +190,68 @@ begin
 
     u_img_gen: entity work.img_gen
         port map (
-            Clk  => s_clk_125mhz,
-            RstN => s_sys_reset_n,
-            We   => s_mouse_we,
-            Addr => s_write_addr,
-            Data => s_write_data
+            Clk      => s_clk_125mhz,
+            RstN     => s_sys_reset_n,
+            We       => s_init_we,
+            Addr     => s_init_addr,
+            Data     => s_init_data,
+            InitDone => s_init_done
         );
+
+    s_fb_wea(0) <= s_init_we when s_init_done = '0' else
+                   '1' when (s_mouse_init_ok = '1' and s_mouse_status(0) = '1') else '0';
+
+    s_write_addr <= s_init_addr when s_init_done = '0' else
+                    std_logic_vector(resize(s_cursor_y * 640 + s_cursor_x, 19));
+
+    s_write_data <= s_init_data when s_init_done = '0' else
+                    "11100000";
 
     process(s_clk_25mhz)
     begin
         if rising_edge(s_clk_25mhz) then
             if s_sys_reset_n = '0' then
-                s_video_de_d1 <= '0';
-                s_video_de_d2 <= '0';
-                s_video_hsync_d1 <= '0';
-                s_video_hsync_d2 <= '0';
-                s_video_vsync_d1 <= '0';
-                s_video_vsync_d2 <= '0';
+                s_video_de_d1 <= '0';     s_video_de_d2 <= '0';
+                s_video_hsync_d1 <= '0';  s_video_hsync_d2 <= '0';
+                s_video_vsync_d1 <= '0';  s_video_vsync_d2 <= '0';
+                s_pixel_x_d1 <= (others => '0'); s_pixel_x_d2 <= (others => '0');
+                s_pixel_y_d1 <= (others => '0'); s_pixel_y_d2 <= (others => '0');
             else
-                s_video_de_d1 <= s_video_de;
-                s_video_de_d2 <= s_video_de_d1;
-                s_video_hsync_d1 <= s_video_hsync;
-                s_video_hsync_d2 <= s_video_hsync_d1;
-                s_video_vsync_d1 <= s_video_vsync;
-                s_video_vsync_d2 <= s_video_vsync_d1;
+                s_video_de_d1 <= s_video_de;       s_video_de_d2 <= s_video_de_d1;
+                s_video_hsync_d1 <= s_video_hsync; s_video_hsync_d2 <= s_video_hsync_d1;
+                s_video_vsync_d1 <= s_video_vsync; s_video_vsync_d2 <= s_video_vsync_d1;
+                s_pixel_x_d1 <= s_pixel_x;         s_pixel_x_d2 <= s_pixel_x_d1;
+                s_pixel_y_d1 <= s_pixel_y;         s_pixel_y_d2 <= s_pixel_y_d1;
             end if;
+        end if;
+    end process;
+
+    process(s_pixel_x_d2, s_pixel_y_d2, s_cursor_x, s_cursor_y, s_read_data)
+        variable px : integer;
+        variable py : integer;
+        variable cx : integer;
+        variable cy : integer;
+        variable r_bg : STD_LOGIC_VECTOR(7 downto 0);
+        variable g_bg : STD_LOGIC_VECTOR(7 downto 0);
+        variable b_bg : STD_LOGIC_VECTOR(7 downto 0);
+    begin
+        r_bg := s_read_data(7 downto 5) & s_read_data(7 downto 5) & s_read_data(7 downto 6);
+        g_bg := s_read_data(4 downto 2) & s_read_data(4 downto 2) & s_read_data(4 downto 3);
+        b_bg := s_read_data(1 downto 0) & s_read_data(1 downto 0) & s_read_data(1 downto 0) & s_read_data(1 downto 0);
+
+        px := to_integer(unsigned(s_pixel_x_d2));
+        py := to_integer(unsigned(s_pixel_y_d2));
+        cx := to_integer(s_cursor_x);
+        cy := to_integer(s_cursor_y);
+
+        if (px >= cx and px < cx + 5) and (py >= cy and py < cy + 5) then
+            s_color_r <= (others => '1');
+            s_color_g <= (others => '1');
+            s_color_b <= (others => '1');
+        else
+            s_color_r <= r_bg;
+            s_color_g <= g_bg;
+            s_color_b <= b_bg;
         end if;
     end process;
 
