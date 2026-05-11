@@ -33,10 +33,7 @@ begin
     addr_calc <= resize(y_cnt * MODE_WIDTH + x_cnt, 19);
     Addr <= std_logic_vector(addr_calc);
 
-    r3 <= std_logic_vector(x_cnt(9 downto 7));
-    g3 <= std_logic_vector(x_cnt(6 downto 4));
-    b2 <= std_logic_vector(x_cnt(3 downto 2));
-    Data <= r3 & g3 & b2;
+    Data <= "11111111";
 
     We <= not done;
     InitDone <= done;

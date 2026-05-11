@@ -11,6 +11,11 @@ entity paint_top is
         io_ps2_data : inout STD_LOGIC;
         io_ps2_clk : inout STD_LOGIC;
 
+        i_rot_a        : in STD_LOGIC;
+        i_rot_b        : in STD_LOGIC;
+        i_sw_brush_en  : in STD_LOGIC;
+        o_led_brush_en : out STD_LOGIC;
+
         o_hdmi_d0_p  : out STD_LOGIC;
         o_hdmi_d0_n  : out STD_LOGIC;
         o_hdmi_d1_p  : out STD_LOGIC;
@@ -49,7 +54,17 @@ architecture structural of paint_top is
             dinb : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
             doutb : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
         );
-    end component;    
+    end component;
+
+    component RotaryEnc_wrap is
+        Port (
+            ROT_A : in std_logic;
+            ROT_B : in std_logic;
+            Clk   : in std_logic;
+            RotL  : out std_logic;
+            RotR  : out std_logic
+        );
+    end component;
 
     signal s_clk_25mhz   : STD_LOGIC;
     signal s_clk_125mhz  : STD_LOGIC;
@@ -102,6 +117,18 @@ architecture structural of paint_top is
     signal s_init_data    : STD_LOGIC_VECTOR(7 downto 0);
     signal s_init_done    : STD_LOGIC;
 
+    signal s_rot_l        : STD_LOGIC;
+    signal s_rot_r        : STD_LOGIC;
+    signal s_brush_size   : integer range 1 to 480 := 1;
+
+    signal s_draw_x_offset : integer range 0 to 479 := 0;
+    signal s_draw_y_offset : integer range 0 to 479 := 0;
+    signal s_draw_we       : STD_LOGIC := '0';
+    signal s_paint_addr_x  : integer;
+    signal s_paint_addr_y  : integer;
+    signal s_safe_we       : STD_LOGIC;
+    signal s_write_addr_calc : STD_LOGIC_VECTOR(18 downto 0);
+
 begin
     s_sys_reset_n <= s_pll_locked and not i_reset_n;
     s_mouse_reset <= not s_sys_reset_n;
@@ -125,6 +152,65 @@ begin
             PS2_Data   => io_ps2_data,
             PS2_Clk    => io_ps2_clk
         );
+
+    u_rotary_encoder: RotaryEnc_wrap
+        port map (
+            ROT_A => i_rot_a,
+            ROT_B => i_rot_b,
+            Clk   => s_clk_125mhz,
+            RotL  => s_rot_l,
+            RotR  => s_rot_r
+        );
+
+    process(s_clk_125mhz)
+    begin
+        if rising_edge(s_clk_125mhz) then
+            if s_sys_reset_n = '0' then
+                s_brush_size <= 1;
+                o_led_brush_en <= '0';
+            else
+                o_led_brush_en <= i_sw_brush_en;
+
+                if i_sw_brush_en = '1' then
+                    if s_rot_l = '1' and s_brush_size > 1 then
+                        s_brush_size <= s_brush_size - 1;
+                    elsif s_rot_r = '1' and s_brush_size < 480 then
+                        s_brush_size <= s_brush_size + 1;
+                    end if;
+                end if;
+            end if;
+        end if;
+    end process;
+
+    process(s_clk_125mhz)
+    begin
+        if rising_edge(s_clk_125mhz) then
+            if s_sys_reset_n = '0' then
+                s_draw_x_offset <= 0;
+                s_draw_y_offset <= 0;
+                s_draw_we <= '0';
+            else
+                if s_mouse_init_ok = '1' and (s_mouse_status(0) = '1' or s_mouse_status(1) = '1') then
+                    s_draw_we <= '1';
+
+                    if s_draw_x_offset < s_brush_size - 1 then
+                        s_draw_x_offset <= s_draw_x_offset + 1;
+                    else
+                        s_draw_x_offset <= 0;
+                        if s_draw_y_offset < s_brush_size - 1 then
+                            s_draw_y_offset <= s_draw_y_offset + 1;
+                        else
+                            s_draw_y_offset <= 0;
+                        end if;
+                    end if;
+                else
+                    s_draw_we <= '0';
+                    s_draw_x_offset <= 0;
+                    s_draw_y_offset <= 0;
+                end if;
+            end if;
+        end if;
+    end process;
 
     process(s_clk_125mhz)
         variable dx : integer;
@@ -198,15 +284,30 @@ begin
             Data     => s_init_data,
             InitDone => s_init_done
         );
-        
-    s_fb_ina(0) <= s_init_in when s_init_done = '0' else
-                   '1' when (s_mouse_init_ok = '1' and s_mouse_status(0) = '1') else '0';
 
-    s_write_addr <= s_init_addr when s_init_done = '0' else
-                    std_logic_vector(resize(s_cursor_y * 640 + s_cursor_x, 19));
+    s_paint_addr_x <= to_integer(s_cursor_x) - (s_brush_size / 2) + s_draw_x_offset;
+    s_paint_addr_y <= to_integer(s_cursor_y) - (s_brush_size / 2) + s_draw_y_offset;
+
+    s_safe_we <= s_draw_we when (s_paint_addr_x >= 0 and s_paint_addr_x <= 639 and
+                                 s_paint_addr_y >= 0 and s_paint_addr_y <= 479) else '0';
+
+    process(s_paint_addr_x, s_paint_addr_y)
+    begin
+        if s_paint_addr_x >= 0 and s_paint_addr_x <= 639 and
+           s_paint_addr_y >= 0 and s_paint_addr_y <= 479 then
+            s_write_addr_calc <= std_logic_vector(to_unsigned(s_paint_addr_y * 640 + s_paint_addr_x, 19));
+        else
+            s_write_addr_calc <= (others => '0');
+        end if;
+    end process;
+
+    s_fb_ina(0) <= s_init_in when s_init_done = '0' else s_safe_we;
+
+    s_write_addr <= s_init_addr when s_init_done = '0' else s_write_addr_calc;
 
     s_write_data <= s_init_data when s_init_done = '0' else
-                    "11100000"; 
+                    "11111111" when s_mouse_status(1) = '1' else
+                    "11100000";
         
     process(s_clk_25mhz)
     begin
@@ -227,14 +328,10 @@ begin
         end if;
     end process;
     
-    process(s_pixel_x_d2, s_pixel_y_d2, s_cursor_x, s_cursor_y, s_read_data)
-        variable px : integer;
-        variable py : integer;
-        variable cx : integer;
-        variable cy : integer;
-        variable r_bg : STD_LOGIC_VECTOR(7 downto 0);
-        variable g_bg : STD_LOGIC_VECTOR(7 downto 0);
-        variable b_bg : STD_LOGIC_VECTOR(7 downto 0);
+    process(s_pixel_x_d2, s_pixel_y_d2, s_cursor_x, s_cursor_y, s_read_data, s_brush_size)
+        variable px, py, cx, cy : integer;
+        variable x_min, x_max, y_min, y_max : integer;
+        variable r_bg, g_bg, b_bg : STD_LOGIC_VECTOR(7 downto 0);
     begin
         r_bg := s_read_data(7 downto 5) & s_read_data(7 downto 5) & s_read_data(7 downto 6);
         g_bg := s_read_data(4 downto 2) & s_read_data(4 downto 2) & s_read_data(4 downto 3);
@@ -245,10 +342,16 @@ begin
         cx := to_integer(s_cursor_x);
         cy := to_integer(s_cursor_y);
 
-        if (px >= cx and px < cx + 5) and (py >= cy and py < cy + 5) then
-            s_color_r <= (others => '1');
-            s_color_g <= (others => '1');
-            s_color_b <= (others => '1');
+        x_min := cx - (s_brush_size / 2);
+        x_max := x_min + s_brush_size;
+
+        y_min := cy - (s_brush_size / 2);
+        y_max := y_min + s_brush_size;
+
+        if (px >= x_min and px < x_max) and (py >= y_min and py < y_max) then
+            s_color_r <= (others => '0');
+            s_color_g <= (others => '0');
+            s_color_b <= (others => '0');
         else
             s_color_r <= r_bg;
             s_color_g <= g_bg;

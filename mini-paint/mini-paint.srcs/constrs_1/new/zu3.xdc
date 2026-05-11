@@ -18,3 +18,13 @@ set_property IOSTANDARD LVCMOS33 [get_ports o_hdmi_*]
 set_property PACKAGE_PIN AB10 [get_ports {io_ps2_data}]
 set_property PACKAGE_PIN AB9  [get_ports {io_ps2_clk}]
 set_property IOSTANDARD LVCMOS33 [get_ports io_ps2_*]
+
+# Rotary encoder, slide switch (brush size), LED — dopasuj PACKAGE_PIN do swojej płyty (schemat ucisw2).
+set_property PACKAGE_PIN AB11 [get_ports {i_rot_a}]
+set_property PACKAGE_PIN AC11 [get_ports {i_rot_b}]
+set_property PACKAGE_PIN AD11 [get_ports {i_sw_brush_en}]
+set_property PACKAGE_PIN AE11 [get_ports {o_led_brush_en}]
+set_property IOSTANDARD LVCMOS33 [get_ports {i_rot_a}]
+set_property IOSTANDARD LVCMOS33 [get_ports {i_rot_b}]
+set_property IOSTANDARD LVCMOS33 [get_ports {i_sw_brush_en}]
+set_property IOSTANDARD LVCMOS33 [get_ports {o_led_brush_en}]
