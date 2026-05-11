@@ -6,10 +6,10 @@ entity paint_top is
     Port ( 
         i_clk_100mhz_p : in STD_LOGIC;
         i_clk_100mhz_n : in STD_LOGIC;
-        i_reset_n    : in STD_LOGIC;
+        i_reset_n : in STD_LOGIC;
 
-        io_ps2_data  : inout STD_LOGIC;
-        io_ps2_clk   : inout STD_LOGIC;
+        io_ps2_data : inout STD_LOGIC;
+        io_ps2_clk : inout STD_LOGIC;
 
         o_hdmi_d0_p  : out STD_LOGIC;
         o_hdmi_d0_n  : out STD_LOGIC;
@@ -27,29 +27,29 @@ architecture structural of paint_top is
         port (
             clk_25MHz : out STD_LOGIC;
             clk_125MHz : out STD_LOGIC;
-            clk_100MHz : out STD_LOGIC;
+            clk_100Mhz : out STD_LOGIC;
             locked : out STD_LOGIC;
             clk_in1_p : in STD_LOGIC;
             clk_in1_n : in STD_LOGIC
         );
     end component;
     
-    COMPONENT blk_mem_gen_0
-      PORT (
-        clka : IN STD_LOGIC;
-        ena : IN STD_LOGIC;
-        wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
-        addra : IN STD_LOGIC_VECTOR(18 DOWNTO 0);
-        dina : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
-        douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-        clkb : IN STD_LOGIC;
-        enb : IN STD_LOGIC;
-        web : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
-        addrb : IN STD_LOGIC_VECTOR(18 DOWNTO 0);
-        dinb : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
-        doutb : OUT STD_LOGIC_VECTOR(7 DOWNTO 0) 
-      );
-    END COMPONENT;
+    component blk_mem_gen_0
+        port (
+            clka : IN STD_LOGIC;
+            ena : IN STD_LOGIC;
+            wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+            addra : IN STD_LOGIC_VECTOR(18 DOWNTO 0);
+            dina : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+            douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+            clkb : IN STD_LOGIC;
+            enb : IN STD_LOGIC;
+            web : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+            addrb : IN STD_LOGIC_VECTOR(18 DOWNTO 0);
+            dinb : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+            doutb : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+        );
+    end component;    
 
     signal s_clk_25mhz   : STD_LOGIC;
     signal s_clk_125mhz  : STD_LOGIC;
@@ -68,54 +68,55 @@ architecture structural of paint_top is
     signal s_video_vsync_d2 : STD_LOGIC;
     signal s_pixel_x     : STD_LOGIC_VECTOR(9 downto 0);
     signal s_pixel_y     : STD_LOGIC_VECTOR(9 downto 0);
-    signal s_pixel_x_d1  : STD_LOGIC_VECTOR(9 downto 0);
-    signal s_pixel_x_d2  : STD_LOGIC_VECTOR(9 downto 0);
-    signal s_pixel_y_d1  : STD_LOGIC_VECTOR(9 downto 0);
-    signal s_pixel_y_d2  : STD_LOGIC_VECTOR(9 downto 0);
+    signal s_pixel_x_d1     : STD_LOGIC_VECTOR(9 downto 0);
+    signal s_pixel_y_d1     : STD_LOGIC_VECTOR(9 downto 0);
+    signal s_pixel_x_d2     : STD_LOGIC_VECTOR(9 downto 0);
+    signal s_pixel_y_d2     : STD_LOGIC_VECTOR(9 downto 0);
     
     signal s_color_r     : STD_LOGIC_VECTOR(7 downto 0);
     signal s_color_g     : STD_LOGIC_VECTOR(7 downto 0);
     signal s_color_b     : STD_LOGIC_VECTOR(7 downto 0);
-
-
+    
     signal s_write_addr  : STD_LOGIC_VECTOR(18 downto 0);
     signal s_write_data  : STD_LOGIC_VECTOR(7 downto 0);
     signal s_read_addr   : STD_LOGIC_VECTOR(18 downto 0);
     signal s_read_data   : STD_LOGIC_VECTOR(7 downto 0);
-
-    signal s_mouse_init_ok  : STD_LOGIC;
+    
+    signal s_mouse_init_ok : STD_LOGIC;
     signal s_mouse_data_rdy : STD_LOGIC;
-    signal s_mouse_status   : STD_LOGIC_VECTOR(7 downto 0);
-    signal s_mouse_dx       : STD_LOGIC_VECTOR(7 downto 0);
-    signal s_mouse_dy       : STD_LOGIC_VECTOR(7 downto 0);
-    signal s_cursor_x       : unsigned(9 downto 0) := to_unsigned(320, 10);
-    signal s_cursor_y       : unsigned(9 downto 0) := to_unsigned(240, 10);
+    signal s_mouse_status : STD_LOGIC_VECTOR(7 downto 0);
+    signal s_mouse_dx : STD_LOGIC_VECTOR(7 downto 0);
+    signal s_mouse_dy : STD_LOGIC_VECTOR(7 downto 0);
+    signal s_cursor_x : unsigned(9 downto 0) := to_unsigned(320, 10);
+    signal s_cursor_y : unsigned(9 downto 0) := to_unsigned(240, 10);
     signal s_mouse_data_rdy_last : STD_LOGIC := '0';
-
+    signal s_mouse_reset : STD_LOGIC;
+    
     signal s_fb_ena       : STD_LOGIC;
     signal s_fb_enb       : STD_LOGIC;
-    signal s_fb_wea       : STD_LOGIC_VECTOR(0 downto 0);
-    signal s_fb_web       : STD_LOGIC_VECTOR(0 downto 0);
+    signal s_fb_ina       : STD_LOGIC_VECTOR(0 downto 0);
+    signal s_fb_inb       : STD_LOGIC_VECTOR(0 downto 0);
     signal s_fb_dinb      : STD_LOGIC_VECTOR(7 downto 0);
-    signal s_init_we      : STD_LOGIC;
+    signal s_init_in      : STD_LOGIC;
     signal s_init_addr    : STD_LOGIC_VECTOR(18 downto 0);
     signal s_init_data    : STD_LOGIC_VECTOR(7 downto 0);
     signal s_init_done    : STD_LOGIC;
+
 begin
     s_sys_reset_n <= s_pll_locked and not i_reset_n;
-
+    s_mouse_reset <= not s_sys_reset_n;
+    
     s_fb_ena <= '1';
     s_fb_enb <= '1';
-    s_fb_web <= (others => '0');
+    s_fb_inb <= (others => '0');
     s_fb_dinb <= (others => '0');
 
     s_read_addr <= std_logic_vector(resize(unsigned(s_pixel_y) * 640 + unsigned(s_pixel_x), 19));
 
-
     u_ps2_mouse: entity work.PS2_Mouse_wrap
         port map (
             Clk_100MHz => s_clk_100mhz,
-            Reset      => not s_sys_reset_n,
+            Reset      => s_mouse_reset,
             InitOK     => s_mouse_init_ok,
             B1_Status  => s_mouse_status,
             B2_X       => s_mouse_dx,
@@ -192,21 +193,21 @@ begin
         port map (
             Clk      => s_clk_125mhz,
             RstN     => s_sys_reset_n,
-            We       => s_init_we,
+            We       => s_init_in,
             Addr     => s_init_addr,
             Data     => s_init_data,
             InitDone => s_init_done
         );
-
-    s_fb_wea(0) <= s_init_we when s_init_done = '0' else
+        
+    s_fb_ina(0) <= s_init_in when s_init_done = '0' else
                    '1' when (s_mouse_init_ok = '1' and s_mouse_status(0) = '1') else '0';
 
     s_write_addr <= s_init_addr when s_init_done = '0' else
                     std_logic_vector(resize(s_cursor_y * 640 + s_cursor_x, 19));
 
     s_write_data <= s_init_data when s_init_done = '0' else
-                    "11100000";
-
+                    "11100000"; 
+        
     process(s_clk_25mhz)
     begin
         if rising_edge(s_clk_25mhz) then
@@ -225,7 +226,7 @@ begin
             end if;
         end if;
     end process;
-
+    
     process(s_pixel_x_d2, s_pixel_y_d2, s_cursor_x, s_cursor_y, s_read_data)
         variable px : integer;
         variable py : integer;
@@ -277,19 +278,19 @@ begin
         );
         
     u_framebuffer : blk_mem_gen_0
-      PORT MAP (
-                clka => s_clk_125mhz,
-                ena => s_fb_ena,
-                wea => s_fb_wea,
-                addra => s_write_addr,
-                dina => s_write_data,
-                douta => open,
-                clkb => s_clk_25mhz,
-                enb => s_fb_enb,
-                web => s_fb_web,
-                addrb => s_read_addr,
-                dinb => s_fb_dinb,
-                doutb => s_read_data
-      );
+        port map (
+            clka => s_clk_125mhz,
+            ena => s_fb_ena,
+            wea => s_fb_ina,
+            addra => s_write_addr,
+            dina => s_write_data,
+            douta => open,
+            clkb => s_clk_25mhz,
+            enb => s_fb_enb,
+            web => s_fb_inb,
+            addrb => s_read_addr,
+            dinb => s_fb_dinb,
+            doutb => s_read_data
+      );    
 
 end structural;

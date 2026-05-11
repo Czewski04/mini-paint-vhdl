@@ -14,3 +14,7 @@ set_property PACKAGE_PIN AG11 [get_ports {o_hdmi_d2_n}]
 set_property PACKAGE_PIN AD12 [get_ports {o_hdmi_clk_p}]
 set_property PACKAGE_PIN AC12 [get_ports {o_hdmi_clk_n}]
 set_property IOSTANDARD LVCMOS33 [get_ports o_hdmi_*]
+
+set_property PACKAGE_PIN AB10 [get_ports {io_ps2_data}]
+set_property PACKAGE_PIN AB9  [get_ports {io_ps2_clk}]
+set_property IOSTANDARD LVCMOS33 [get_ports io_ps2_*]

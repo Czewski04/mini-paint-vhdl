@@ -1,9 +1,3 @@
------------------------------------------------------------------------------
---
---   Framebuffer initializer (one-shot memory tester)
---
------------------------------------------------------------------------------
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
