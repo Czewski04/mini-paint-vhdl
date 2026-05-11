@@ -11,10 +11,11 @@ entity paint_top is
         io_ps2_data : inout STD_LOGIC;
         io_ps2_clk : inout STD_LOGIC;
 
-        i_rot_a        : in STD_LOGIC;
-        i_rot_b        : in STD_LOGIC;
-        i_sw_brush_en  : in STD_LOGIC;
-        o_led_brush_en : out STD_LOGIC;
+        i_rot_a : in STD_LOGIC;
+        i_rot_b : in STD_LOGIC;
+        -- 4 switche: [0]=rozmiar, [1]=R, [2]=G, [3]=B
+        i_sw    : in STD_LOGIC_VECTOR(3 downto 0);
+        o_led   : out STD_LOGIC_VECTOR(3 downto 0);
 
         o_hdmi_d0_p  : out STD_LOGIC;
         o_hdmi_d0_n  : out STD_LOGIC;
@@ -129,6 +130,15 @@ architecture structural of paint_top is
     signal s_safe_we       : STD_LOGIC;
     signal s_write_addr_calc : STD_LOGIC_VECTOR(18 downto 0);
 
+    signal s_color_val_r : unsigned(7 downto 0) := (others => '0');
+    signal s_color_val_g : unsigned(7 downto 0) := (others => '0');
+    signal s_color_val_b : unsigned(7 downto 0) := (others => '0');
+
+    signal s_sw_count     : integer range 0 to 4;
+    signal s_interlock_ok : std_logic;
+
+    signal s_current_pixel_8bit : std_logic_vector(7 downto 0);
+
 begin
     s_sys_reset_n <= s_pll_locked and not i_reset_n;
     s_mouse_reset <= not s_sys_reset_n;
@@ -139,6 +149,19 @@ begin
     s_fb_dinb <= (others => '0');
 
     s_read_addr <= std_logic_vector(resize(unsigned(s_pixel_y) * 640 + unsigned(s_pixel_x), 19));
+
+    s_sw_count <= to_integer(unsigned(std_logic_vector'('0' & i_sw(0)))) +
+                  to_integer(unsigned(std_logic_vector'('0' & i_sw(1)))) +
+                  to_integer(unsigned(std_logic_vector'('0' & i_sw(2)))) +
+                  to_integer(unsigned(std_logic_vector'('0' & i_sw(3))));
+
+    s_interlock_ok <= '1' when s_sw_count = 1 else '0';
+
+    o_led <= i_sw when s_interlock_ok = '1' else (others => '0');
+
+    s_current_pixel_8bit <= std_logic_vector(s_color_val_r(7 downto 5)) &
+                            std_logic_vector(s_color_val_g(7 downto 5)) &
+                            std_logic_vector(s_color_val_b(7 downto 6));
 
     u_ps2_mouse: entity work.PS2_Mouse_wrap
         port map (
@@ -167,15 +190,33 @@ begin
         if rising_edge(s_clk_125mhz) then
             if s_sys_reset_n = '0' then
                 s_brush_size <= 1;
-                o_led_brush_en <= '0';
-            else
-                o_led_brush_en <= i_sw_brush_en;
-
-                if i_sw_brush_en = '1' then
+                s_color_val_r <= (others => '0');
+                s_color_val_g <= (others => '0');
+                s_color_val_b <= (others => '0');
+            elsif s_mouse_init_ok = '1' and s_interlock_ok = '1' then
+                if i_sw(0) = '1' then
                     if s_rot_l = '1' and s_brush_size > 1 then
                         s_brush_size <= s_brush_size - 1;
                     elsif s_rot_r = '1' and s_brush_size < 480 then
                         s_brush_size <= s_brush_size + 1;
+                    end if;
+                elsif i_sw(1) = '1' then
+                    if s_rot_l = '1' and s_color_val_r > 0 then
+                        s_color_val_r <= s_color_val_r - 1;
+                    elsif s_rot_r = '1' and s_color_val_r < 255 then
+                        s_color_val_r <= s_color_val_r + 1;
+                    end if;
+                elsif i_sw(2) = '1' then
+                    if s_rot_l = '1' and s_color_val_g > 0 then
+                        s_color_val_g <= s_color_val_g - 1;
+                    elsif s_rot_r = '1' and s_color_val_g < 255 then
+                        s_color_val_g <= s_color_val_g + 1;
+                    end if;
+                elsif i_sw(3) = '1' then
+                    if s_rot_l = '1' and s_color_val_b > 0 then
+                        s_color_val_b <= s_color_val_b - 1;
+                    elsif s_rot_r = '1' and s_color_val_b < 255 then
+                        s_color_val_b <= s_color_val_b + 1;
                     end if;
                 end if;
             end if;
@@ -307,7 +348,7 @@ begin
 
     s_write_data <= s_init_data when s_init_done = '0' else
                     "11111111" when s_mouse_status(1) = '1' else
-                    "11100000";
+                    s_current_pixel_8bit;
         
     process(s_clk_25mhz)
     begin
@@ -328,14 +369,19 @@ begin
         end if;
     end process;
     
-    process(s_pixel_x_d2, s_pixel_y_d2, s_cursor_x, s_cursor_y, s_read_data, s_brush_size)
+    process(s_pixel_x_d2, s_pixel_y_d2, s_cursor_x, s_cursor_y, s_read_data, s_brush_size, s_current_pixel_8bit)
         variable px, py, cx, cy : integer;
         variable x_min, x_max, y_min, y_max : integer;
         variable r_bg, g_bg, b_bg : STD_LOGIC_VECTOR(7 downto 0);
+        variable r_cursor, g_cursor, b_cursor : STD_LOGIC_VECTOR(7 downto 0);
     begin
         r_bg := s_read_data(7 downto 5) & s_read_data(7 downto 5) & s_read_data(7 downto 6);
         g_bg := s_read_data(4 downto 2) & s_read_data(4 downto 2) & s_read_data(4 downto 3);
         b_bg := s_read_data(1 downto 0) & s_read_data(1 downto 0) & s_read_data(1 downto 0) & s_read_data(1 downto 0);
+
+        r_cursor := s_current_pixel_8bit(7 downto 5) & s_current_pixel_8bit(7 downto 5) & s_current_pixel_8bit(7 downto 6);
+        g_cursor := s_current_pixel_8bit(4 downto 2) & s_current_pixel_8bit(4 downto 2) & s_current_pixel_8bit(4 downto 3);
+        b_cursor := s_current_pixel_8bit(1 downto 0) & s_current_pixel_8bit(1 downto 0) & s_current_pixel_8bit(1 downto 0) & s_current_pixel_8bit(1 downto 0);
 
         px := to_integer(unsigned(s_pixel_x_d2));
         py := to_integer(unsigned(s_pixel_y_d2));
@@ -349,9 +395,9 @@ begin
         y_max := y_min + s_brush_size;
 
         if (px >= x_min and px < x_max) and (py >= y_min and py < y_max) then
-            s_color_r <= (others => '0');
-            s_color_g <= (others => '0');
-            s_color_b <= (others => '0');
+            s_color_r <= r_cursor;
+            s_color_g <= g_cursor;
+            s_color_b <= b_cursor;
         else
             s_color_r <= r_bg;
             s_color_g <= g_bg;
