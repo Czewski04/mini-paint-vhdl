@@ -2,7 +2,7 @@
 // Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-// Date        : Tue Mar 31 09:50:31 2026
+// Date        : Tue Apr 28 09:06:09 2026
 // Host        : Lab016-02 running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode funcsim
 //               c:/Users/lab/Desktop/mini-paint/mini-paint.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_sim_netlist.v
@@ -17,15 +17,18 @@
 module clk_wiz_0
    (clk_25MHz,
     clk_125MHz,
+    clk_100MHz,
     locked,
     clk_in1_p,
     clk_in1_n);
   output clk_25MHz;
   output clk_125MHz;
+  output clk_100MHz;
   output locked;
   input clk_in1_p;
   input clk_in1_n;
 
+  wire clk_100MHz;
   wire clk_125MHz;
   wire clk_25MHz;
   (* IBUF_LOW_PWR *) (* RTL_KEEP = "yes" *) wire clk_in1_n;
@@ -33,7 +36,8 @@ module clk_wiz_0
   wire locked;
 
   clk_wiz_0_clk_wiz inst
-       (.clk_125MHz(clk_125MHz),
+       (.clk_100MHz(clk_100MHz),
+        .clk_125MHz(clk_125MHz),
         .clk_25MHz(clk_25MHz),
         .clk_in1_n(clk_in1_n),
         .clk_in1_p(clk_in1_p),
@@ -43,15 +47,19 @@ endmodule
 module clk_wiz_0_clk_wiz
    (clk_25MHz,
     clk_125MHz,
+    clk_100MHz,
     locked,
     clk_in1_p,
     clk_in1_n);
   output clk_25MHz;
   output clk_125MHz;
+  output clk_100MHz;
   output locked;
   input clk_in1_p;
   input clk_in1_n;
 
+  wire clk_100MHz;
+  wire clk_100MHz_clk_wiz_0;
   wire clk_125MHz;
   wire clk_125MHz_clk_wiz_0;
   wire clk_25MHz;
@@ -68,7 +76,6 @@ module clk_wiz_0_clk_wiz
   wire NLW_mmcme4_adv_inst_CLKINSTOPPED_UNCONNECTED;
   wire NLW_mmcme4_adv_inst_CLKOUT0B_UNCONNECTED;
   wire NLW_mmcme4_adv_inst_CLKOUT1B_UNCONNECTED;
-  wire NLW_mmcme4_adv_inst_CLKOUT2_UNCONNECTED;
   wire NLW_mmcme4_adv_inst_CLKOUT2B_UNCONNECTED;
   wire NLW_mmcme4_adv_inst_CLKOUT3_UNCONNECTED;
   wire NLW_mmcme4_adv_inst_CLKOUT3B_UNCONNECTED;
@@ -121,22 +128,32 @@ module clk_wiz_0_clk_wiz
         .I(clk_125MHz_clk_wiz_0),
         .O(clk_125MHz));
   (* BOX_TYPE = "PRIMITIVE" *) 
+  (* XILINX_LEGACY_PRIM = "BUFG" *) 
+  (* XILINX_TRANSFORM_PINMAP = "VCC:CE" *) 
+  BUFGCE #(
+    .CE_TYPE("ASYNC"),
+    .SIM_DEVICE("ULTRASCALE_PLUS")) 
+    clkout3_buf
+       (.CE(1'b1),
+        .I(clk_100MHz_clk_wiz_0),
+        .O(clk_100MHz));
+  (* BOX_TYPE = "PRIMITIVE" *) 
   MMCME4_ADV #(
     .BANDWIDTH("OPTIMIZED"),
-    .CLKFBOUT_MULT_F(12.500000),
+    .CLKFBOUT_MULT_F(10.000000),
     .CLKFBOUT_PHASE(0.000000),
     .CLKFBOUT_USE_FINE_PS("FALSE"),
     .CLKIN1_PERIOD(10.000000),
     .CLKIN2_PERIOD(0.000000),
-    .CLKOUT0_DIVIDE_F(50.000000),
+    .CLKOUT0_DIVIDE_F(40.000000),
     .CLKOUT0_DUTY_CYCLE(0.500000),
     .CLKOUT0_PHASE(0.000000),
     .CLKOUT0_USE_FINE_PS("FALSE"),
-    .CLKOUT1_DIVIDE(10),
+    .CLKOUT1_DIVIDE(8),
     .CLKOUT1_DUTY_CYCLE(0.500000),
     .CLKOUT1_PHASE(0.000000),
     .CLKOUT1_USE_FINE_PS("FALSE"),
-    .CLKOUT2_DIVIDE(1),
+    .CLKOUT2_DIVIDE(10),
     .CLKOUT2_DUTY_CYCLE(0.500000),
     .CLKOUT2_PHASE(0.000000),
     .CLKOUT2_USE_FINE_PS("FALSE"),
@@ -188,7 +205,7 @@ module clk_wiz_0_clk_wiz
         .CLKOUT0B(NLW_mmcme4_adv_inst_CLKOUT0B_UNCONNECTED),
         .CLKOUT1(clk_125MHz_clk_wiz_0),
         .CLKOUT1B(NLW_mmcme4_adv_inst_CLKOUT1B_UNCONNECTED),
-        .CLKOUT2(NLW_mmcme4_adv_inst_CLKOUT2_UNCONNECTED),
+        .CLKOUT2(clk_100MHz_clk_wiz_0),
         .CLKOUT2B(NLW_mmcme4_adv_inst_CLKOUT2B_UNCONNECTED),
         .CLKOUT3(NLW_mmcme4_adv_inst_CLKOUT3_UNCONNECTED),
         .CLKOUT3B(NLW_mmcme4_adv_inst_CLKOUT3B_UNCONNECTED),

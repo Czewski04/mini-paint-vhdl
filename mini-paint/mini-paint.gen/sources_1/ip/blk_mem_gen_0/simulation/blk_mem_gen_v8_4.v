@@ -92,7 +92,7 @@
 --
  *****************************************************************************
  *
- * Filename: blk_mem_gen_v8_4_12.v
+ * Filename: blk_mem_gen_v8_4_11.v
  *
  * Description:
  *   This file is the Verilog behvarial model for the
@@ -1602,10 +1602,10 @@ module blk_mem_axi_regs_fwd_v8_4
 // Output Register Stage module
 //
 // This module builds the output register stages of the memory. This module is 
-// instantiated in the main memory module (blk_mem_gen_v8_4_12) which is
+// instantiated in the main memory module (blk_mem_gen_v8_4_11) which is
 // declared/implemented further down in this file.
 //*****************************************************************************
-module blk_mem_gen_v8_4_12_output_stage
+module blk_mem_gen_v8_4_11_output_stage
   #(parameter C_FAMILY              = "virtex7",
     parameter C_XDEVICEFAMILY       = "virtex7",
     parameter C_RST_TYPE            = "SYNC",
@@ -1965,7 +1965,7 @@ module blk_mem_gen_v8_4_12_output_stage
   endgenerate
 endmodule
 
-module blk_mem_gen_v8_4_12_softecc_output_reg_stage
+module blk_mem_gen_v8_4_11_softecc_output_reg_stage
   #(parameter C_DATA_WIDTH          = 32,
     parameter C_ADDRB_WIDTH         = 10,
     parameter C_HAS_SOFTECC_OUTPUT_REGS_B= 0,
@@ -2057,8 +2057,8 @@ endmodule
 //
 // This module is the top-level behavioral model and this implements the RAM 
 //*****************************************************************************
-module blk_mem_gen_v8_4_12_mem_module
-  #(parameter C_CORENAME                = "blk_mem_gen_v8_4_12",
+module blk_mem_gen_v8_4_11_mem_module
+  #(parameter C_CORENAME                = "blk_mem_gen_v8_4_11",
     parameter C_FAMILY                  = "virtex7",
     parameter C_XDEVICEFAMILY           = "virtex7",
     parameter C_MEM_TYPE                = 2,
@@ -2276,9 +2276,9 @@ module blk_mem_gen_v8_4_12_mem_module
   //////////////////////////////////////////////////////////////////////////
 
 
-// Note: C_CORENAME parameter is hard-coded to "blk_mem_gen_v8_4_12" and it is
+// Note: C_CORENAME parameter is hard-coded to "blk_mem_gen_v8_4_11" and it is
 // only used by this module to print warning messages. It is neither passed 
-// down from blk_mem_gen_v8_4_12_xst.v nor present in the instantiation template
+// down from blk_mem_gen_v8_4_11_xst.v nor present in the instantiation template
 // coregen generates
   
   //***************************************************************************
@@ -3302,7 +3302,7 @@ module blk_mem_gen_v8_4_12_mem_module
 
   assign rsta_outp_stage = RSTA & (~SLEEP);
 
-  blk_mem_gen_v8_4_12_output_stage
+  blk_mem_gen_v8_4_11_output_stage
     #(.C_FAMILY                 (C_FAMILY),
       .C_XDEVICEFAMILY          (C_XDEVICEFAMILY),
       .C_RST_TYPE               ("SYNC"),
@@ -3340,7 +3340,7 @@ module blk_mem_gen_v8_4_12_mem_module
   assign rstb_outp_stage = RSTB & (~SLEEP);
 
   // Port B 
-  blk_mem_gen_v8_4_12_output_stage
+  blk_mem_gen_v8_4_11_output_stage
     #(.C_FAMILY                 (C_FAMILY),
       .C_XDEVICEFAMILY          (C_XDEVICEFAMILY),
       .C_RST_TYPE               ("SYNC"),
@@ -3378,7 +3378,7 @@ module blk_mem_gen_v8_4_12_mem_module
   //***************************************************************
   //  Instantiate the Input and Output register stages
   //***************************************************************
-blk_mem_gen_v8_4_12_softecc_output_reg_stage
+blk_mem_gen_v8_4_11_softecc_output_reg_stage
     #(.C_DATA_WIDTH                 (C_READ_WIDTH_B),
       .C_ADDRB_WIDTH                (C_ADDRB_WIDTH),
       .C_HAS_SOFTECC_OUTPUT_REGS_B  (C_HAS_SOFTECC_OUTPUT_REGS_B),
@@ -3537,8 +3537,8 @@ endmodule
 // This module is the top-level behavioral model and this implements the memory 
 // module and the input registers
 //*****************************************************************************
-module blk_mem_gen_v8_4_12
-  #(parameter C_CORENAME                = "blk_mem_gen_v8_4_12",
+module blk_mem_gen_v8_4_11
+  #(parameter C_CORENAME                = "blk_mem_gen_v8_4_11",
     parameter C_FAMILY                  = "virtex7",
     parameter C_XDEVICEFAMILY           = "virtex7",
     parameter C_ELABORATION_DIR         = "",
@@ -4220,7 +4220,7 @@ module blk_mem_gen_v8_4_12
   endgenerate
 
   generate if ((C_INTERFACE_TYPE == 0) && (C_ENABLE_32BIT_ADDRESS == 0)) begin : native_mem_module
-blk_mem_gen_v8_4_12_mem_module
+blk_mem_gen_v8_4_11_mem_module
   #(.C_CORENAME                        (C_CORENAME),
     .C_FAMILY                          (C_FAMILY),
     .C_XDEVICEFAMILY                   (C_XDEVICEFAMILY),
@@ -4282,7 +4282,7 @@ blk_mem_gen_v8_4_12_mem_module
     .C_READ_LATENCY_A                  (C_READ_LATENCY_A),
     .C_READ_LATENCY_B                  (C_READ_LATENCY_B),
     .C_DISABLE_WARN_BHV_RANGE          (C_DISABLE_WARN_BHV_RANGE))
-    blk_mem_gen_v8_4_12_inst
+    blk_mem_gen_v8_4_11_inst
    (.CLKA            (CLKA),
    .RSTA             (RSTA_I_SAFE),//(rsta_in),
    .ENA              (ENA_I_SAFE),//(ena_in),
@@ -4345,7 +4345,7 @@ blk_mem_gen_v8_4_12_mem_module
   assign lsb_zero_i = 0;
   assign RDADDRECC  = {msb_zero_i,rdaddrecc_i,lsb_zero_i};
 
-blk_mem_gen_v8_4_12_mem_module
+blk_mem_gen_v8_4_11_mem_module
   #(.C_CORENAME                        (C_CORENAME),
     .C_FAMILY                          (C_FAMILY),
     .C_XDEVICEFAMILY                   (C_XDEVICEFAMILY),
@@ -4407,7 +4407,7 @@ blk_mem_gen_v8_4_12_mem_module
     .C_READ_LATENCY_A                  (C_READ_LATENCY_A),
     .C_READ_LATENCY_B                  (C_READ_LATENCY_B),
     .C_DISABLE_WARN_BHV_RANGE          (C_DISABLE_WARN_BHV_RANGE))
-    blk_mem_gen_v8_4_12_inst
+    blk_mem_gen_v8_4_11_inst
    (.CLKA            (CLKA),
    .RSTA             (RSTA_I_SAFE),//(rsta_in),
    .ENA              (ENA_I_SAFE),//(ena_in),
@@ -4564,7 +4564,7 @@ assign s_axi_arlen_c = (C_AXI_TYPE == 1)?S_AXI_ARLEN:8'h0;
     .S_AXI_RD_EN                  (s_axi_rd_en_c)
   );
 
-blk_mem_gen_v8_4_12_mem_module
+blk_mem_gen_v8_4_11_mem_module
   #(.C_CORENAME                        (C_CORENAME),
     .C_FAMILY                          (C_FAMILY),
     .C_XDEVICEFAMILY                   (C_XDEVICEFAMILY),
@@ -4626,7 +4626,7 @@ blk_mem_gen_v8_4_12_mem_module
     .C_READ_LATENCY_A                  (C_READ_LATENCY_A),
     .C_READ_LATENCY_B                  (C_READ_LATENCY_B),
     .C_DISABLE_WARN_BHV_RANGE          (C_DISABLE_WARN_BHV_RANGE))
-    blk_mem_gen_v8_4_12_inst
+    blk_mem_gen_v8_4_11_inst
    (.CLKA            (S_ACLK),
    .RSTA             (s_aresetn_a_c),
    .ENA              (s_axi_wr_en_c),

@@ -2,7 +2,7 @@
 -- Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
--- Date        : Tue Mar 31 09:50:31 2026
+-- Date        : Tue Apr 28 09:06:09 2026
 -- Host        : Lab016-02 running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim
 --               c:/Users/lab/Desktop/mini-paint/mini-paint.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_sim_netlist.vhdl
@@ -19,6 +19,7 @@ entity clk_wiz_0_clk_wiz is
   port (
     clk_25MHz : out STD_LOGIC;
     clk_125MHz : out STD_LOGIC;
+    clk_100MHz : out STD_LOGIC;
     locked : out STD_LOGIC;
     clk_in1_p : in STD_LOGIC;
     clk_in1_n : in STD_LOGIC
@@ -26,6 +27,7 @@ entity clk_wiz_0_clk_wiz is
 end clk_wiz_0_clk_wiz;
 
 architecture STRUCTURE of clk_wiz_0_clk_wiz is
+  signal clk_100MHz_clk_wiz_0 : STD_LOGIC;
   signal clk_125MHz_clk_wiz_0 : STD_LOGIC;
   signal clk_25MHz_clk_wiz_0 : STD_LOGIC;
   signal clk_in1_clk_wiz_0 : STD_LOGIC;
@@ -37,7 +39,6 @@ architecture STRUCTURE of clk_wiz_0_clk_wiz is
   signal NLW_mmcme4_adv_inst_CLKINSTOPPED_UNCONNECTED : STD_LOGIC;
   signal NLW_mmcme4_adv_inst_CLKOUT0B_UNCONNECTED : STD_LOGIC;
   signal NLW_mmcme4_adv_inst_CLKOUT1B_UNCONNECTED : STD_LOGIC;
-  signal NLW_mmcme4_adv_inst_CLKOUT2_UNCONNECTED : STD_LOGIC;
   signal NLW_mmcme4_adv_inst_CLKOUT2B_UNCONNECTED : STD_LOGIC;
   signal NLW_mmcme4_adv_inst_CLKOUT3_UNCONNECTED : STD_LOGIC;
   signal NLW_mmcme4_adv_inst_CLKOUT3B_UNCONNECTED : STD_LOGIC;
@@ -66,6 +67,9 @@ architecture STRUCTURE of clk_wiz_0_clk_wiz is
   attribute BOX_TYPE of clkout2_buf : label is "PRIMITIVE";
   attribute XILINX_LEGACY_PRIM of clkout2_buf : label is "BUFG";
   attribute XILINX_TRANSFORM_PINMAP of clkout2_buf : label is "VCC:CE";
+  attribute BOX_TYPE of clkout3_buf : label is "PRIMITIVE";
+  attribute XILINX_LEGACY_PRIM of clkout3_buf : label is "BUFG";
+  attribute XILINX_TRANSFORM_PINMAP of clkout3_buf : label is "VCC:CE";
   attribute BOX_TYPE of mmcme4_adv_inst : label is "PRIMITIVE";
 begin
 clkf_buf: unisim.vcomponents.BUFGCE
@@ -108,23 +112,33 @@ clkout2_buf: unisim.vcomponents.BUFGCE
       I => clk_125MHz_clk_wiz_0,
       O => clk_125MHz
     );
+clkout3_buf: unisim.vcomponents.BUFGCE
+    generic map(
+      CE_TYPE => "ASYNC",
+      SIM_DEVICE => "ULTRASCALE_PLUS"
+    )
+        port map (
+      CE => '1',
+      I => clk_100MHz_clk_wiz_0,
+      O => clk_100MHz
+    );
 mmcme4_adv_inst: unisim.vcomponents.MMCME4_ADV
     generic map(
       BANDWIDTH => "OPTIMIZED",
-      CLKFBOUT_MULT_F => 12.500000,
+      CLKFBOUT_MULT_F => 10.000000,
       CLKFBOUT_PHASE => 0.000000,
       CLKFBOUT_USE_FINE_PS => "FALSE",
       CLKIN1_PERIOD => 10.000000,
       CLKIN2_PERIOD => 0.000000,
-      CLKOUT0_DIVIDE_F => 50.000000,
+      CLKOUT0_DIVIDE_F => 40.000000,
       CLKOUT0_DUTY_CYCLE => 0.500000,
       CLKOUT0_PHASE => 0.000000,
       CLKOUT0_USE_FINE_PS => "FALSE",
-      CLKOUT1_DIVIDE => 10,
+      CLKOUT1_DIVIDE => 8,
       CLKOUT1_DUTY_CYCLE => 0.500000,
       CLKOUT1_PHASE => 0.000000,
       CLKOUT1_USE_FINE_PS => "FALSE",
-      CLKOUT2_DIVIDE => 1,
+      CLKOUT2_DIVIDE => 10,
       CLKOUT2_DUTY_CYCLE => 0.500000,
       CLKOUT2_PHASE => 0.000000,
       CLKOUT2_USE_FINE_PS => "FALSE",
@@ -177,7 +191,7 @@ mmcme4_adv_inst: unisim.vcomponents.MMCME4_ADV
       CLKOUT0B => NLW_mmcme4_adv_inst_CLKOUT0B_UNCONNECTED,
       CLKOUT1 => clk_125MHz_clk_wiz_0,
       CLKOUT1B => NLW_mmcme4_adv_inst_CLKOUT1B_UNCONNECTED,
-      CLKOUT2 => NLW_mmcme4_adv_inst_CLKOUT2_UNCONNECTED,
+      CLKOUT2 => clk_100MHz_clk_wiz_0,
       CLKOUT2B => NLW_mmcme4_adv_inst_CLKOUT2B_UNCONNECTED,
       CLKOUT3 => NLW_mmcme4_adv_inst_CLKOUT3_UNCONNECTED,
       CLKOUT3B => NLW_mmcme4_adv_inst_CLKOUT3B_UNCONNECTED,
@@ -208,6 +222,7 @@ entity clk_wiz_0 is
   port (
     clk_25MHz : out STD_LOGIC;
     clk_125MHz : out STD_LOGIC;
+    clk_100MHz : out STD_LOGIC;
     locked : out STD_LOGIC;
     clk_in1_p : in STD_LOGIC;
     clk_in1_n : in STD_LOGIC
@@ -220,6 +235,7 @@ architecture STRUCTURE of clk_wiz_0 is
 begin
 inst: entity work.clk_wiz_0_clk_wiz
      port map (
+      clk_100MHz => clk_100MHz,
       clk_125MHz => clk_125MHz,
       clk_25MHz => clk_25MHz,
       clk_in1_n => clk_in1_n,
