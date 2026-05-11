@@ -3,8 +3,8 @@
 # SW Build 6140274 on Thu May 22 00:12:29 MDT 2025
 # IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
 # SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
-# Start of session at: Tue Mar 31 09:49:37 2026
-# Process ID         : 8396
+# Start of session at: Tue Apr 28 09:05:16 2026
+# Process ID         : 12268
 # Current directory  : C:/Users/lab/Desktop/mini-paint/mini-paint.runs/clk_wiz_0_synth_1
 # Command line       : vivado.exe -log clk_wiz_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source clk_wiz_0.tcl
 # Log file           : C:/Users/lab/Desktop/mini-paint/mini-paint.runs/clk_wiz_0_synth_1/clk_wiz_0.vds
@@ -17,8 +17,8 @@
 # CPU Physical cores : 6
 # CPU Logical cores  : 12
 # Host memory        : 17030 MB
-# Swap memory        : 2550 MB
-# Total Virtual      : 19580 MB
-# Available Virtual  : 8609 MB
+# Swap memory        : 3606 MB
+# Total Virtual      : 20636 MB
+# Available Virtual  : 13257 MB
 #-----------------------------------------------------------
 source clk_wiz_0.tcl -notrace

@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
-| Tool Version : Vivado v.2025.2 (win64) Build 6299465 Fri Nov 14 19:35:11 GMT 2025
-| Date         : Mon Apr 27 21:36:17 2026
-| Host         : Czewski_PC running 64-bit major release  (build 9200)
+| Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
+| Date         : Tue Apr 28 08:28:24 2026
+| Host         : Lab016-02 running 64-bit major release  (build 9200)
 | Command      : report_utilization -file blk_mem_gen_0_utilization_synth.rpt -pb blk_mem_gen_0_utilization_synth.pb
 | Design       : blk_mem_gen_0
 | Device       : xczu3eg-sfvc784-2-e
@@ -42,12 +42,10 @@ Table of Contents
 | F7 Muxes                |  160 |     0 |          0 |     35280 |  0.45 |
 | F8 Muxes                |   64 |     0 |          0 |     17640 |  0.36 |
 | F9 Muxes                |    0 |     0 |          0 |      8820 |  0.00 |
-| Unique Control Sets     |    2 |       |          0 |     17640 |  0.01 |
 +-------------------------+------+-------+------------+-----------+-------+
 * Warning! The Final LUT count, after physical optimizations and full implementation, is typically lower. Run opt_design after synthesis, if not already completed, for a more realistic count.
 Warning! LUT value is adjusted to account for LUT combining.
 Warning! For any ECO changes, please run place_design if there are unplaced instances
-** Note: Available Control Sets calculated as Slices * 2, Review the Control Sets Report for more information regarding control sets.
 
 
 1.1 Summary of Registers by Type

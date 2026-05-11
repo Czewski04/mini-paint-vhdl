@@ -21,3 +21,7 @@ set_property src_info {type:XDC file:1 line:14 export:INPUT save:INPUT read:READ
 set_property PACKAGE_PIN AD12 [get_ports {o_hdmi_clk_p}]
 set_property src_info {type:XDC file:1 line:15 export:INPUT save:INPUT read:READ} [current_design]
 set_property PACKAGE_PIN AC12 [get_ports {o_hdmi_clk_n}]
+set_property src_info {type:XDC file:1 line:18 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN AB10 [get_ports {io_ps2_data}]
+set_property src_info {type:XDC file:1 line:19 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN AB9  [get_ports {io_ps2_clk}]

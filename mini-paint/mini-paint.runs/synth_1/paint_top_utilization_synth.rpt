@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date         : Tue Mar 31 09:57:23 2026
+| Date         : Tue Apr 28 09:58:52 2026
 | Host         : Lab016-02 running 64-bit major release  (build 9200)
 | Command      : report_utilization -file paint_top_utilization_synth.rpt -pb paint_top_utilization_synth.pb
 | Design       : paint_top
@@ -32,13 +32,13 @@ Table of Contents
 +-------------------------+------+-------+------------+-----------+-------+
 |        Site Type        | Used | Fixed | Prohibited | Available | Util% |
 +-------------------------+------+-------+------------+-----------+-------+
-| CLB LUTs*               |  297 |     0 |          0 |     70560 |  0.42 |
-|   LUT as Logic          |  297 |     0 |          0 |     70560 |  0.42 |
+| CLB LUTs*               |  374 |     0 |          0 |     70560 |  0.53 |
+|   LUT as Logic          |  374 |     0 |          0 |     70560 |  0.53 |
 |   LUT as Memory         |    0 |     0 |          0 |     28800 |  0.00 |
-| CLB Registers           |  132 |     0 |          0 |    141120 |  0.09 |
-|   Register as Flip Flop |  132 |     0 |          0 |    141120 |  0.09 |
+| CLB Registers           |  272 |     0 |          0 |    141120 |  0.19 |
+|   Register as Flip Flop |  272 |     0 |          0 |    141120 |  0.19 |
 |   Register as Latch     |    0 |     0 |          0 |    141120 |  0.00 |
-| CARRY8                  |   10 |     0 |          0 |      8820 |  0.11 |
+| CARRY8                  |   14 |     0 |          0 |      8820 |  0.16 |
 | F7 Muxes                |    3 |     0 |          0 |     35280 | <0.01 |
 | F8 Muxes                |    0 |     0 |          0 |     17640 |  0.00 |
 | F9 Muxes                |    0 |     0 |          0 |      8820 |  0.00 |
@@ -62,8 +62,8 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 | 0     |          Yes |           - |            - |
 | 0     |          Yes |           - |          Set |
 | 0     |          Yes |           - |        Reset |
-| 0     |          Yes |         Set |            - |
-| 132   |          Yes |       Reset |            - |
+| 13    |          Yes |         Set |            - |
+| 259   |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
 
 
@@ -83,11 +83,12 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 3. ARITHMETIC
 -------------
 
-+-----------+------+-------+------------+-----------+-------+
-| Site Type | Used | Fixed | Prohibited | Available | Util% |
-+-----------+------+-------+------------+-----------+-------+
-| DSPs      |    0 |     0 |          0 |       360 |  0.00 |
-+-----------+------+-------+------------+-----------+-------+
++----------------+------+-------+------------+-----------+-------+
+|    Site Type   | Used | Fixed | Prohibited | Available | Util% |
++----------------+------+-------+------------+-----------+-------+
+| DSPs           |    3 |     0 |          0 |       360 |  0.83 |
+|   DSP48E2 only |    3 |       |            |           |       |
++----------------+------+-------+------------+-----------+-------+
 
 
 4. I/O
@@ -96,7 +97,7 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 +------------------+------+-------+------------+-----------+-------+
 |     Site Type    | Used | Fixed | Prohibited | Available | Util% |
 +------------------+------+-------+------------+-----------+-------+
-| Bonded IOB       |    9 |     0 |          0 |       252 |  3.57 |
+| Bonded IOB       |   11 |     0 |          0 |       252 |  4.37 |
 |   HPIOB_M        |    0 |     0 |          0 |        72 |  0.00 |
 |   HPIOB_S        |    0 |     0 |          0 |        72 |  0.00 |
 |   HDIOB_M        |    0 |     0 |          0 |        48 |  0.00 |
@@ -161,39 +162,44 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 +-----------+------+---------------------+
 |  Ref Name | Used | Functional Category |
 +-----------+------+---------------------+
-| FDRE      |  132 |            Register |
+| FDRE      |  259 |            Register |
 | LUT6      |  111 |                 CLB |
-| LUT5      |   78 |                 CLB |
-| LUT4      |   68 |                 CLB |
-| LUT2      |   58 |                 CLB |
-| LUT3      |   42 |                 CLB |
-| LUT1      |   22 |                 CLB |
-| CARRY8    |   10 |                 CLB |
+| LUT5      |   97 |                 CLB |
+| LUT2      |   85 |                 CLB |
+| LUT4      |   78 |                 CLB |
+| LUT3      |   74 |                 CLB |
+| LUT1      |   40 |                 CLB |
+| CARRY8    |   14 |                 CLB |
+| FDSE      |   13 |            Register |
 | OSERDESE3 |    8 |                 I/O |
 | OBUF      |    8 |                 I/O |
 | MUXF7     |    3 |                 CLB |
-| INBUF     |    1 |                 I/O |
-| IBUFCTRL  |    1 |              Others |
+| INBUF     |    3 |                 I/O |
+| IBUFCTRL  |    3 |              Others |
+| DSP48E2   |    3 |          Arithmetic |
+| OBUFT     |    2 |                 I/O |
 +-----------+------+---------------------+
 
 
 9. Black Boxes
 --------------
 
-+-----------+------+
-|  Ref Name | Used |
-+-----------+------+
-| clk_wiz_0 |    1 |
-+-----------+------+
++---------------+------+
+|    Ref Name   | Used |
++---------------+------+
+| clk_wiz_0     |    1 |
+| blk_mem_gen_0 |    1 |
++---------------+------+
 
 
 10. Instantiated Netlists
 -------------------------
 
-+----------+------+
-| Ref Name | Used |
-+----------+------+
-| HDMI_TX  |    1 |
-+----------+------+
++-----------+------+
+|  Ref Name | Used |
++-----------+------+
+| PS2_Mouse |    1 |
+| HDMI_TX   |    1 |
++-----------+------+
 
 

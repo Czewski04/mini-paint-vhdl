@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version              : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date                      : Tue Mar 31 09:59:02 2026
+| Date                      : Tue Apr 28 10:02:16 2026
 | Host                      : Lab016-02 running 64-bit major release  (build 9200)
 | Command                   : report_io -file paint_top_io_placed.rpt
 | Design                    : paint_top
@@ -25,7 +25,7 @@ Table of Contents
 +---------------+
 | Total User IO |
 +---------------+
-|            11 |
+|            13 |
 +---------------+
 
 
@@ -99,8 +99,8 @@ Table of Contents
 | AB6        | i_reset_n      | High Performance | IO_L6P_T0U_N10_AD6P_64             | INPUT         | LVCMOS12    |      64 |            |                         |      |                   |                 NONE |           | FIXED      |           |          |      | NONE             |              |                   |              |
 | AB7        |                | High Performance | IO_L5P_T0U_N8_AD14P_64             | User IO       |             |      64 |            |                         |      |                   |                      |           |            |           |          |      |                  |              |                   |              |
 | AB8        |                | High Performance | IO_L3P_T0L_N4_AD15P_64             | User IO       |             |      64 |            |                         |      |                   |                      |           |            |           |          |      |                  |              |                   |              |
-| AB9        |                | High Density     | IO_L12N_AD0N_44                    | User IO       |             |      44 |            |                         |      |                   |                      |           |            |           |          |      |                  |              |                   |              |
-| AB10       |                | High Density     | IO_L12P_AD0P_44                    | User IO       |             |      44 |            |                         |      |                   |                      |           |            |           |          |      |                  |              |                   |              |
+| AB9        | io_ps2_clk     | High Density     | IO_L12N_AD0N_44                    | BIDIR         | LVCMOS33    |      44 |         12 |                         | SLOW |                   |            FP_VTT_50 |           | FIXED      |           |          |      | NONE             |              |                   |              |
+| AB10       | io_ps2_data    | High Density     | IO_L12P_AD0P_44                    | BIDIR         | LVCMOS33    |      44 |         12 |                         | SLOW |                   |            FP_VTT_50 |           | FIXED      |           |          |      | NONE             |              |                   |              |
 | AB11       |                | High Density     | IO_L8P_HDGC_AD4P_44                | GCLK          |             |      44 |            |                         |      |                   |                      |           |            |           |          |      |                  |              |                   |              |
 | AB12       |                |                  | GND                                | GND           |             |         |            |                         |      |                   |                      |       0.0 |            |           |          |      |                  |              |                   |              |
 | AB13       |                | High Density     | IO_L7N_HDGC_24                     | GCLK          |             |      24 |            |                         |      |                   |                      |           |            |           |          |      |                  |              |                   |              |

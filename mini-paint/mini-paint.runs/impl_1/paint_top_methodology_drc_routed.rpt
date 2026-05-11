@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date         : Tue Mar 31 09:59:16 2026
+| Date         : Tue Apr 28 10:03:18 2026
 | Host         : Lab016-02 running 64-bit major release  (build 9200)
 | Command      : report_methodology -file paint_top_methodology_drc_routed.rpt -pb paint_top_methodology_drc_routed.pb -rpx paint_top_methodology_drc_routed.rpx
 | Design       : paint_top
@@ -23,19 +23,21 @@ Table of Contents
           Floorplan: design_1
       Design limits: <entire design considered>
              Max checks: <unlimited>
-             Checks found: 2
-+---------+----------+---------------------------------------------------------+--------+
-| Rule    | Severity | Description                                             | Checks |
-+---------+----------+---------------------------------------------------------+--------+
-| LUTAR-1 | Warning  | LUT drives async reset alert                            | 1      |
-| CLKC-24 | Advisory | MMCME4 with ZHOLD drives sequential IO not with CLKOUT0 | 1      |
-+---------+----------+---------------------------------------------------------+--------+
+             Checks found: 14
++-----------+----------+---------------------------------------------------------+--------+
+| Rule      | Severity | Description                                             | Checks |
++-----------+----------+---------------------------------------------------------+--------+
+| LUTAR-1   | Warning  | LUT drives async reset alert                            | 1      |
+| SYNTH-14  | Warning  | DSP cannot absorb non-zero init register                | 6      |
+| TIMING-18 | Warning  | Missing input or output delay                           | 5      |
+| CLKC-24   | Advisory | MMCME4 with ZHOLD drives sequential IO not with CLKOUT0 | 2      |
++-----------+----------+---------------------------------------------------------+--------+
 
 2. REPORT DETAILS
 -----------------
 LUTAR-1#1 Warning
 LUT drives async reset alert  
-LUT cell u_video_timing/i_wrap_i_1, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_hdmi_tx/i_wrap/TMDS_0/i_ODDRE_N/RST,
+LUT cell u_video_timing/i_wrap_i_1__0, with 2 or more inputs, drives asynchronous preset/clear pin(s) u_hdmi_tx/i_wrap/TMDS_0/i_ODDRE_N/RST,
 u_hdmi_tx/i_wrap/TMDS_0/i_ODDRE_P/RST,
 u_hdmi_tx/i_wrap/TMDS_1/i_ODDRE_N/RST,
 u_hdmi_tx/i_wrap/TMDS_1/i_ODDRE_P/RST,
@@ -45,9 +47,69 @@ u_hdmi_tx/i_wrap/TMDS_3/i_ODDRE_N/RST
 u_hdmi_tx/i_wrap/TMDS_3/i_ODDRE_P/RST. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
 Related violations: <none>
 
+SYNTH-14#1 Warning
+DSP cannot absorb non-zero init register  
+Register s_cursor_x_reg[6] cannot be absorbed into DSP block due to its non-zero INIT value.
+Related violations: <none>
+
+SYNTH-14#2 Warning
+DSP cannot absorb non-zero init register  
+Register s_cursor_x_reg[8] cannot be absorbed into DSP block due to its non-zero INIT value.
+Related violations: <none>
+
+SYNTH-14#3 Warning
+DSP cannot absorb non-zero init register  
+Register s_cursor_y_reg[4] cannot be absorbed into DSP block due to its non-zero INIT value.
+Related violations: <none>
+
+SYNTH-14#4 Warning
+DSP cannot absorb non-zero init register  
+Register s_cursor_y_reg[5] cannot be absorbed into DSP block due to its non-zero INIT value.
+Related violations: <none>
+
+SYNTH-14#5 Warning
+DSP cannot absorb non-zero init register  
+Register s_cursor_y_reg[6] cannot be absorbed into DSP block due to its non-zero INIT value.
+Related violations: <none>
+
+SYNTH-14#6 Warning
+DSP cannot absorb non-zero init register  
+Register s_cursor_y_reg[7] cannot be absorbed into DSP block due to its non-zero INIT value.
+Related violations: <none>
+
+TIMING-18#1 Warning
+Missing input or output delay  
+An input delay is missing on i_reset_n relative to the rising and/or falling clock edge(s) of i_clk_100mhz_p.
+Related violations: <none>
+
+TIMING-18#2 Warning
+Missing input or output delay  
+An input delay is missing on io_ps2_clk relative to the rising and/or falling clock edge(s) of i_clk_100mhz_p.
+Related violations: <none>
+
+TIMING-18#3 Warning
+Missing input or output delay  
+An input delay is missing on io_ps2_data relative to the rising and/or falling clock edge(s) of i_clk_100mhz_p.
+Related violations: <none>
+
+TIMING-18#4 Warning
+Missing input or output delay  
+An output delay is missing on io_ps2_clk relative to the rising and/or falling clock edge(s) of i_clk_100mhz_p.
+Related violations: <none>
+
+TIMING-18#5 Warning
+Missing input or output delay  
+An output delay is missing on io_ps2_data relative to the rising and/or falling clock edge(s) of i_clk_100mhz_p.
+Related violations: <none>
+
 CLKC-24#1 Advisory
 MMCME4 with ZHOLD drives sequential IO not with CLKOUT0  
 The MMCME4 cell u_clk_wiz_0/inst/mmcme4_adv_inst has COMPENSATION value ZHOLD, but CLKOUT1 output drives sequential IO cells. In order to achieve insertion delay and phase-alignment for the IO sequential cells, CLKOUT0 must be used.
+Related violations: <none>
+
+CLKC-24#2 Advisory
+MMCME4 with ZHOLD drives sequential IO not with CLKOUT0  
+The MMCME4 cell u_clk_wiz_0/inst/mmcme4_adv_inst has COMPENSATION value ZHOLD, but CLKOUT2 output drives sequential IO cells. In order to achieve insertion delay and phase-alignment for the IO sequential cells, CLKOUT0 must be used.
 Related violations: <none>
 
 

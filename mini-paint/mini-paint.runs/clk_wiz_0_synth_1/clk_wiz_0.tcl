@@ -59,7 +59,11 @@ OPTRACE "clk_wiz_0_synth_1" START { ROLLUP_AUTO }
 set_param general.maxThreads 6
 set_param chipscope.maxJobs 3
 set_param general.usePosixSpawnForFork 1
+set_param synth.incrementalSynthesisCache C:/Users/lab/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-5936-Lab016-02/incrSyn
+set_param checkpoint.writeSynthRtdsInDcp 1
 set_param xicom.use_bs_reader 1
+set_msg_config -id {Synth 8-256} -limit 10000
+set_msg_config -id {Synth 8-638} -limit 10000
 set_param project.vivado.isBlockSynthRun true
 set_msg_config -msgmgr_mode ooc_run
 OPTRACE "Creating in-memory project" START { }
@@ -71,7 +75,7 @@ set_param synth.vivado.isSynthRun true
 set_msg_config -source 4 -id {IP_Flow 19-2162} -severity warning -new_severity info
 set_property webtalk.parent_dir C:/Users/lab/Desktop/mini-paint/mini-paint.cache/wt [current_project]
 set_property parent.project_path C:/Users/lab/Desktop/mini-paint/mini-paint.xpr [current_project]
-set_property XPM_LIBRARIES XPM_CDC [current_project]
+set_property XPM_LIBRARIES {XPM_CDC XPM_MEMORY} [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language VHDL [current_project]
 set_property board_part_repo_paths {C:/Xilinx/Board_repo} [current_project]
@@ -82,7 +86,7 @@ set_property ip_output_repo c:/Users/lab/Desktop/mini-paint/mini-paint.cache/ip 
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
-read_ip -quiet c:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.xci
+read_ip -quiet C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.xci
 set_property used_in_implementation false [get_files -all c:/Users/lab/Desktop/mini-paint/mini-paint.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_board.xdc]
 set_property used_in_implementation false [get_files -all c:/Users/lab/Desktop/mini-paint/mini-paint.gen/sources_1/ip/clk_wiz_0/clk_wiz_0.xdc]
 set_property used_in_implementation false [get_files -all c:/Users/lab/Desktop/mini-paint/mini-paint.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_ooc.xdc]

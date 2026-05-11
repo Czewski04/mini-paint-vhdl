@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date             : Tue Mar 31 09:59:21 2026
+| Date             : Tue Apr 28 10:03:29 2026
 | Host             : Lab016-02 running 64-bit major release  (build 9200)
 | Command          : report_power -file paint_top_power_routed.rpt -pb paint_top_power_summary_routed.pb -rpx paint_top_power_routed.rpx
 | Design           : paint_top
@@ -30,14 +30,14 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.359        |
+| Total On-Chip Power (W)  | 0.376        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.115        |
+| Dynamic (W)              | 0.132        |
 | Device Static (W)        | 0.244        |
 | Effective TJA (C/W)      | 2.4          |
-| Max Ambient (C)          | 99.2         |
-| Junction Temperature (C) | 25.8         |
+| Max Ambient (C)          | 99.1         |
+| Junction Temperature (C) | 25.9         |
 | Confidence Level         | Medium       |
 | Setting File             | ---          |
 | Simulation Activity File | ---          |
@@ -52,18 +52,20 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
-| Clocks         |     0.002 |        6 |       --- |             --- |
-| CLB Logic      |    <0.001 |      533 |       --- |             --- |
-|   LUT as Logic |    <0.001 |      289 |     70560 |            0.41 |
-|   Register     |    <0.001 |      132 |    141120 |            0.09 |
-|   CARRY8       |    <0.001 |       10 |      8820 |            0.11 |
-|   Others       |     0.000 |       11 |       --- |             --- |
-|   F7/F8 Muxes  |     0.000 |        3 |     70560 |           <0.01 |
-| Signals        |    <0.001 |      367 |       --- |             --- |
-| MMCM           |     0.100 |        0 |       --- |             --- |
-| I/O            |     0.011 |       11 |       252 |            4.37 |
+| Clocks         |     0.008 |        7 |       --- |             --- |
+| CLB Logic      |     0.002 |     1559 |       --- |             --- |
+|   LUT as Logic |     0.001 |      743 |     70560 |            1.05 |
+|   CARRY8       |    <0.001 |       14 |      8820 |            0.16 |
+|   Register     |    <0.001 |      279 |    141120 |            0.20 |
+|   Others       |     0.000 |      171 |       --- |             --- |
+|   F7/F8 Muxes  |     0.000 |      115 |     70560 |            0.16 |
+| Signals        |     0.004 |     1654 |       --- |             --- |
+| Block RAM      |     0.018 |       75 |       216 |           34.72 |
+| MMCM           |     0.089 |        0 |       --- |             --- |
+| DSPs           |    <0.001 |        3 |       360 |            0.83 |
+| I/O            |     0.011 |       13 |       252 |            5.16 |
 | Static Power   |     0.244 |          |           |                 |
-| Total          |     0.359 |          |           |                 |
+| Total          |     0.376 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -73,10 +75,10 @@ Table of Contents
 +-----------------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source          | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint          |       0.850 |     0.049 |       0.005 |      0.045 |       NA    | Unspecified | NA         |
+| Vccint          |       0.850 |     0.084 |       0.038 |      0.045 |       NA    | Unspecified | NA         |
 | Vccint_io       |       0.850 |     0.028 |       0.002 |      0.027 |       NA    | Unspecified | NA         |
 | Vccbram         |       0.850 |     0.001 |       0.000 |      0.001 |       NA    | Unspecified | NA         |
-| Vccaux          |       1.800 |     0.104 |       0.056 |      0.048 |       NA    | Unspecified | NA         |
+| Vccaux          |       1.800 |     0.097 |       0.049 |      0.048 |       NA    | Unspecified | NA         |
 | Vccaux_io       |       1.800 |     0.027 |       0.002 |      0.025 |       NA    | Unspecified | NA         |
 | Vcco33          |       3.300 |     0.009 |       0.002 |      0.007 |       NA    | Unspecified | NA         |
 | Vcco25          |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -144,6 +146,7 @@ Table of Contents
 +----------------------+---------------------------------------+-----------------+
 | Clock                | Domain                                | Constraint (ns) |
 +----------------------+---------------------------------------+-----------------+
+| clk_100MHz_clk_wiz_0 | u_clk_wiz_0/inst/clk_100MHz_clk_wiz_0 |            10.0 |
 | clk_125MHz_clk_wiz_0 | u_clk_wiz_0/inst/clk_125MHz_clk_wiz_0 |             8.0 |
 | clk_25MHz_clk_wiz_0  | u_clk_wiz_0/inst/clk_25MHz_clk_wiz_0  |            40.0 |
 | clkfbout_clk_wiz_0   | u_clk_wiz_0/inst/clkfbout_clk_wiz_0   |            10.0 |
@@ -157,15 +160,21 @@ Table of Contents
 3.1 By Hierarchy
 ----------------
 
-+---------------------+-----------+
-| Name                | Power (W) |
-+---------------------+-----------+
-| paint_top           |     0.115 |
-|   u_clk_wiz_0       |     0.103 |
-|     inst            |     0.103 |
-|       clkin1_ibufds |     0.002 |
-|   u_hdmi_tx         |     0.004 |
-|     i_wrap          |     0.004 |
-+---------------------+-----------+
++------------------------+-----------+
+| Name                   | Power (W) |
++------------------------+-----------+
+| paint_top              |     0.132 |
+|   u_clk_wiz_0          |     0.092 |
+|     inst               |     0.092 |
+|       clkin1_ibufds    |     0.002 |
+|   u_framebuffer        |     0.021 |
+|     U0                 |     0.021 |
+|       inst_blk_mem_gen |     0.021 |
+|   u_hdmi_tx            |     0.004 |
+|     i_wrap             |     0.004 |
+|   u_img_gen            |     0.003 |
+|   u_ps2_mouse          |     0.003 |
+|     i_wrap             |     0.002 |
++------------------------+-----------+
 
 
