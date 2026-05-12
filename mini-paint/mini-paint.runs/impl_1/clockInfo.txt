@@ -1,6 +1,6 @@
 -------------------------------------
 | Tool Version : Vivado v.2025.1
-| Date         : Tue Apr 28 09:59:57 2026
+| Date         : Tue May 12 09:20:21 2026
 | Host         : Lab016-02
 | Design       : design_1
 | Device       : xczu3eg-sfvc784-2-E-
@@ -25,21 +25,21 @@ Pre-CRP Checker took 0 secs
 ********************************
 Clock Net Route Info (CRP Input)
 ********************************
-Clock 1: u_clk_wiz_0/inst/clk_25MHz
-	Clock source type: BUFGCE
-	Clock source region: X1Y2
-	initial rect ((0, 0), (1, 2))
-
-Clock 2: u_clk_wiz_0/inst/clk_125MHz
+Clock 1: u_clk_wiz_0/inst/clk_125MHz
 	Clock source type: BUFGCE
 	Clock source region: X1Y2
 	Clock regions with locked loads: X1Y0 
 	initial rect ((0, 0), (1, 2))
 
-Clock 3: u_clk_wiz_0/inst/clk_100MHz
+Clock 2: u_clk_wiz_0/inst/clk_25MHz
 	Clock source type: BUFGCE
 	Clock source region: X1Y2
 	initial rect ((0, 0), (1, 2))
+
+Clock 3: u_clk_wiz_0/inst/clk_100MHz
+	Clock source type: BUFGCE
+	Clock source region: X1Y2
+	initial rect ((1, 1), (1, 2))
 
 Clock 4: u_clk_wiz_0/inst/clkfbout_buf_clk_wiz_0
 	Clock source type: BUFGCE

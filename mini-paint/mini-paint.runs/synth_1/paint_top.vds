@@ -3,8 +3,8 @@
 # SW Build 6140274 on Thu May 22 00:12:29 MDT 2025
 # IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
 # SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
-# Start of session at: Tue Apr 28 09:57:55 2026
-# Process ID         : 7680
+# Start of session at: Tue May 12 09:18:19 2026
+# Process ID         : 11412
 # Current directory  : C:/Users/lab/Desktop/mini-paint/mini-paint.runs/synth_1
 # Command line       : vivado.exe -log paint_top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source paint_top.tcl
 # Log file           : C:/Users/lab/Desktop/mini-paint/mini-paint.runs/synth_1/paint_top.vds
@@ -17,9 +17,9 @@
 # CPU Physical cores : 6
 # CPU Logical cores  : 12
 # Host memory        : 17030 MB
-# Swap memory        : 3606 MB
-# Total Virtual      : 20636 MB
-# Available Virtual  : 13083 MB
+# Swap memory        : 2550 MB
+# Total Virtual      : 19580 MB
+# Available Virtual  : 13351 MB
 #-----------------------------------------------------------
 Sourcing tcl script 'C:/Users/lab/AppData/Roaming/Xilinx/Vivado/Vivado_init.tcl'
 source paint_top.tcl -notrace
@@ -38,16 +38,19 @@ INFO: [Designutils 20-5440] No compile time benefit to using incremental synthes
 INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 6 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 3052
+INFO: [Synth 8-7075] Helper process launched with PID 11336
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 1682.668 ; gain = 201.152
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 1680.441 ; gain = 201.375
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-638] synthesizing module 'paint_top' [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/paint_top.vhd:25]
+INFO: [Synth 8-638] synthesizing module 'paint_top' [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/paint_top.vhd:31]
 INFO: [Synth 8-638] synthesizing module 'PS2_Mouse_wrap' [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/Downloads/PS2_Mouse_wrap.vhd:18]
 INFO: [Synth 8-637] synthesizing blackbox instance 'i_wrap' of component 'PS2_Mouse' [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/Downloads/PS2_Mouse_wrap.vhd:36]
 INFO: [Synth 8-256] done synthesizing module 'PS2_Mouse_wrap' (0#1) [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/Downloads/PS2_Mouse_wrap.vhd:18]
-INFO: [Synth 8-3491] module 'clk_wiz_0' declared at 'C:/Users/lab/Desktop/mini-paint/mini-paint.runs/synth_1/.Xil/Vivado-7680-Lab016-02/realtime/clk_wiz_0_stub.vhdl:6' bound to instance 'u_clk_wiz_0' of component 'clk_wiz_0' [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/paint_top.vhd:168]
-INFO: [Synth 8-638] synthesizing module 'clk_wiz_0' [C:/Users/lab/Desktop/mini-paint/mini-paint.runs/synth_1/.Xil/Vivado-7680-Lab016-02/realtime/clk_wiz_0_stub.vhdl:20]
+INFO: [Synth 8-638] synthesizing module 'RotaryEnc_wrap' [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/RotaryEnc/RotaryEnc_wrap.vhd:14]
+INFO: [Synth 8-637] synthesizing blackbox instance 'i_wrap' of component 'RotaryEnc' [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/RotaryEnc/RotaryEnc_wrap.vhd:27]
+INFO: [Synth 8-256] done synthesizing module 'RotaryEnc_wrap' (0#1) [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/RotaryEnc/RotaryEnc_wrap.vhd:14]
+INFO: [Synth 8-3491] module 'clk_wiz_0' declared at 'C:/Users/lab/Desktop/mini-paint/mini-paint.runs/synth_1/.Xil/Vivado-11412-Lab016-02/realtime/clk_wiz_0_stub.vhdl:6' bound to instance 'u_clk_wiz_0' of component 'clk_wiz_0' [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/paint_top.vhd:311]
+INFO: [Synth 8-638] synthesizing module 'clk_wiz_0' [C:/Users/lab/Desktop/mini-paint/mini-paint.runs/synth_1/.Xil/Vivado-11412-Lab016-02/realtime/clk_wiz_0_stub.vhdl:20]
 INFO: [Synth 8-638] synthesizing module 'video_timing' [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/video_timing.vhd:25]
 INFO: [Synth 8-256] done synthesizing module 'video_timing' (0#1) [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/video_timing.vhd:25]
 INFO: [Synth 8-638] synthesizing module 'img_gen' [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/img_gen.vhd:18]
@@ -55,28 +58,28 @@ INFO: [Synth 8-256] done synthesizing module 'img_gen' (0#1) [C:/Users/lab/Deskt
 INFO: [Synth 8-638] synthesizing module 'HDMI_TX_wrap' [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/HDMI_TX/HDMI_TX_wrap.vhd:26]
 INFO: [Synth 8-637] synthesizing blackbox instance 'i_wrap' of component 'HDMI_TX' [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/HDMI_TX/HDMI_TX_wrap.vhd:52]
 INFO: [Synth 8-256] done synthesizing module 'HDMI_TX_wrap' (0#1) [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/HDMI_TX/HDMI_TX_wrap.vhd:26]
-INFO: [Synth 8-3491] module 'blk_mem_gen_0' declared at 'C:/Users/lab/Desktop/mini-paint/mini-paint.runs/synth_1/.Xil/Vivado-7680-Lab016-02/realtime/blk_mem_gen_0_stub.vhdl:6' bound to instance 'u_framebuffer' of component 'blk_mem_gen_0' [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/paint_top.vhd:280]
-INFO: [Synth 8-638] synthesizing module 'blk_mem_gen_0' [C:/Users/lab/Desktop/mini-paint/mini-paint.runs/synth_1/.Xil/Vivado-7680-Lab016-02/realtime/blk_mem_gen_0_stub.vhdl:30]
-INFO: [Synth 8-256] done synthesizing module 'paint_top' (0#1) [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/paint_top.vhd:25]
+INFO: [Synth 8-3491] module 'blk_mem_gen_0' declared at 'C:/Users/lab/Desktop/mini-paint/mini-paint.runs/synth_1/.Xil/Vivado-11412-Lab016-02/realtime/blk_mem_gen_0_stub.vhdl:6' bound to instance 'u_framebuffer' of component 'blk_mem_gen_0' [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/paint_top.vhd:445]
+INFO: [Synth 8-638] synthesizing module 'blk_mem_gen_0' [C:/Users/lab/Desktop/mini-paint/mini-paint.runs/synth_1/.Xil/Vivado-11412-Lab016-02/realtime/blk_mem_gen_0_stub.vhdl:30]
+INFO: [Synth 8-256] done synthesizing module 'paint_top' (0#1) [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/paint_top.vhd:31]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:08 ; elapsed = 00:00:07 . Memory (MB): peak = 1794.289 ; gain = 312.773
+Finished RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1796.969 ; gain = 317.902
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 1794.289 ; gain = 312.773
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1796.969 ; gain = 317.902
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 1794.289 ; gain = 312.773
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1796.969 ; gain = 317.902
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.005 . Memory (MB): peak = 1794.289 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.008 . Memory (MB): peak = 1796.969 ; gain = 0.000
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
 Initializing timing engine
 Parsing XDC File [c:/Users/lab/Desktop/mini-paint/mini-paint.gen/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc] for cell 'u_clk_wiz_0'
-create_clock: Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1898.043 ; gain = 21.168
+create_clock: Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 1903.398 ; gain = 19.816
 Finished Parsing XDC File [c:/Users/lab/Desktop/mini-paint/mini-paint.gen/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc] for cell 'u_clk_wiz_0'
 Parsing XDC File [c:/Users/lab/Desktop/mini-paint/mini-paint.gen/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0/blk_mem_gen_0_in_context.xdc] for cell 'u_framebuffer'
 Finished Parsing XDC File [c:/Users/lab/Desktop/mini-paint/mini-paint.gen/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0/blk_mem_gen_0_in_context.xdc] for cell 'u_framebuffer'
@@ -86,16 +89,16 @@ INFO: [Project 1-236] Implementation specific constraints were found while readi
 Resolution: To avoid this warning, move constraints listed in [.Xil/paint_top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1898.043 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1903.398 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.004 . Memory (MB): peak = 1898.043 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.005 . Memory (MB): peak = 1903.398 ; gain = 0.000
 WARNING: [Timing 38-316] Clock period '20.000' specified during out-of-context synthesis of instance 'u_framebuffer' at clock pin 'clka' is different from the actual clock period '8.000', this can lead to different synthesis results.
 INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
 INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:21 ; elapsed = 00:00:21 . Memory (MB): peak = 1898.359 ; gain = 416.844
+Finished Constraint Validation : Time (s): cpu = 00:00:20 ; elapsed = 00:00:21 . Memory (MB): peak = 1903.398 ; gain = 424.332
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
@@ -103,16 +106,16 @@ Start Loading Part and Timing Information
 Loading part: xczu3eg-sfvc784-2-e
 INFO: [Synth 8-6742] Reading net delay rules and data
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:21 ; elapsed = 00:00:21 . Memory (MB): peak = 1898.359 ; gain = 416.844
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:20 ; elapsed = 00:00:21 . Memory (MB): peak = 1903.398 ; gain = 424.332
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:21 ; elapsed = 00:00:21 . Memory (MB): peak = 1898.359 ; gain = 416.844
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:20 ; elapsed = 00:00:21 . Memory (MB): peak = 1903.398 ; gain = 424.332
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:21 ; elapsed = 00:00:21 . Memory (MB): peak = 1898.359 ; gain = 416.844
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:21 ; elapsed = 00:00:22 . Memory (MB): peak = 1903.398 ; gain = 424.332
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
@@ -120,18 +123,26 @@ Start RTL Component Statistics
 Detailed RTL Component Info : 
 +---Adders : 
 	   3 Input   33 Bit       Adders := 2     
-	   3 Input   32 Bit       Adders := 1     
-	   2 Input   32 Bit       Adders := 1     
+	   3 Input   32 Bit       Adders := 3     
+	   2 Input   32 Bit       Adders := 3     
 	   2 Input   12 Bit       Adders := 2     
+	   3 Input   11 Bit       Adders := 2     
 	   2 Input   10 Bit       Adders := 5     
+	   2 Input    9 Bit       Adders := 5     
+	   2 Input    8 Bit       Adders := 4     
+	   4 Input    3 Bit       Adders := 1     
 +---Registers : 
 	               10 Bit    Registers := 11    
-	                1 Bit    Registers := 12    
+	                9 Bit    Registers := 4     
+	                8 Bit    Registers := 3     
+	                1 Bit    Registers := 14    
 +---Muxes : 
-	   2 Input   19 Bit        Muxes := 1     
+	   2 Input   19 Bit        Muxes := 2     
 	   2 Input   10 Bit        Muxes := 6     
-	   2 Input    8 Bit        Muxes := 4     
-	   2 Input    1 Bit        Muxes := 2     
+	   2 Input    9 Bit        Muxes := 1     
+	   2 Input    8 Bit        Muxes := 5     
+	   2 Input    4 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 11    
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -148,9 +159,9 @@ Finished Part Resource Summary
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
-DSP Report: Generating DSP s_write_addr0, operation Mode is: C+A*(B:0x280).
-DSP Report: operator s_write_addr0 is absorbed into DSP s_write_addr0.
-DSP Report: operator multOp is absorbed into DSP s_write_addr0.
+DSP Report: Generating DSP s_write_addr_calc0, operation Mode is: C+A*(B:0x280).
+DSP Report: operator s_write_addr_calc0 is absorbed into DSP s_write_addr_calc0.
+DSP Report: operator s_write_addr_calc1 is absorbed into DSP s_write_addr_calc0.
 DSP Report: Generating DSP u_img_gen/addr_calc, operation Mode is: C'+A2*(B:0x280).
 DSP Report: register u_img_gen/y_cnt_reg is absorbed into DSP u_img_gen/addr_calc.
 DSP Report: register u_img_gen/x_cnt_reg is absorbed into DSP u_img_gen/addr_calc.
@@ -162,11 +173,11 @@ DSP Report: register u_video_timing/cntX_reg is absorbed into DSP s_read_addr.
 DSP Report: operator s_read_addr is absorbed into DSP s_read_addr.
 DSP Report: operator multOp is absorbed into DSP s_read_addr.
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:24 ; elapsed = 00:00:25 . Memory (MB): peak = 1898.359 ; gain = 416.844
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:24 ; elapsed = 00:00:25 . Memory (MB): peak = 1903.398 ; gain = 424.332
 ---------------------------------------------------------------------------------
+ Sort Area is  s_write_addr_calc0_2 : 0 0 : 188 188 : Used 1 time 0
  Sort Area is  s_read_addr_4 : 0 0 : 135 135 : Used 1 time 0
  Sort Area is  u_img_gen/addr_calc_0 : 0 0 : 135 135 : Used 1 time 0
- Sort Area is  s_write_addr0_2 : 0 0 : 115 115 : Used 1 time 0
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP, Shift Register and Retiming Reporting
 ---------------------------------------------------------------------------------
@@ -175,7 +186,7 @@ DSP: Preliminary Mapping Report (see note below. The ' indicates corresponding R
 +------------+-----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
 |Module Name | DSP Mapping     | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
 +------------+-----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
-|paint_top   | C+A*(B:0x280)   | 10     | 10     | 10     | -      | 19     | 0    | 0    | 0    | -    | -     | 0    | 0    | 
+|paint_top   | C+A*(B:0x280)   | 13     | 11     | 12     | -      | 19     | 0    | 0    | 0    | -    | -     | 0    | 0    | 
 |img_gen     | C'+A2*(B:0x280) | 10     | 10     | 10     | -      | 19     | 1    | 0    | 1    | -    | -     | 0    | 0    | 
 |paint_top   | C'+A2*(B:0x280) | 10     | 10     | 10     | -      | 19     | 1    | 0    | 1    | -    | -     | 0    | 0    | 
 +------------+-----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
@@ -188,19 +199,19 @@ Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:33 ; elapsed = 00:00:34 . Memory (MB): peak = 2569.980 ; gain = 1088.465
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:33 ; elapsed = 00:00:34 . Memory (MB): peak = 2566.402 ; gain = 1087.336
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:34 ; elapsed = 00:00:35 . Memory (MB): peak = 2595.277 ; gain = 1113.762
+Finished Timing Optimization : Time (s): cpu = 00:00:34 ; elapsed = 00:00:35 . Memory (MB): peak = 2599.758 ; gain = 1120.691
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:34 ; elapsed = 00:00:35 . Memory (MB): peak = 2596.105 ; gain = 1114.590
+Finished Technology Mapping : Time (s): cpu = 00:00:34 ; elapsed = 00:00:36 . Memory (MB): peak = 2602.078 ; gain = 1123.012
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -218,37 +229,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 2809.379 ; gain = 1327.863
+Finished IO Insertion : Time (s): cpu = 00:00:38 ; elapsed = 00:00:40 . Memory (MB): peak = 2811.535 ; gain = 1332.469
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 2809.379 ; gain = 1327.863
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:38 ; elapsed = 00:00:40 . Memory (MB): peak = 2811.535 ; gain = 1332.469
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 2809.379 ; gain = 1327.863
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:38 ; elapsed = 00:00:40 . Memory (MB): peak = 2811.535 ; gain = 1332.469
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 2809.379 ; gain = 1327.863
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:38 ; elapsed = 00:00:40 . Memory (MB): peak = 2811.535 ; gain = 1332.469
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 2809.379 ; gain = 1327.863
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:39 ; elapsed = 00:00:40 . Memory (MB): peak = 2811.535 ; gain = 1332.469
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 2809.379 ; gain = 1327.863
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:39 ; elapsed = 00:00:40 . Memory (MB): peak = 2811.535 ; gain = 1332.469
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -258,7 +269,7 @@ DSP Final Report (the ' indicates corresponding REG is set)
 +------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
 |Module Name | DSP Mapping | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
 +------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
-|paint_top   | C+A*B       | 10     | 10     | 10     | -      | 19     | 0    | 0    | 0    | -    | -     | 0    | 0    | 
+|paint_top   | C+A*B       | 30     | 10     | 48     | -      | 19     | 0    | 0    | 0    | -    | -     | 0    | 0    | 
 |paint_top   | C'+A'*B     | 10     | 10     | 10     | -      | 19     | 1    | 0    | 1    | -    | -     | 0    | 0    | 
 |img_gen     | C'+A'*B     | 10     | 10     | 10     | -      | 19     | 1    | 0    | 1    | -    | -     | 0    | 0    | 
 +------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
@@ -272,6 +283,7 @@ Report BlackBoxes:
 |2     |blk_mem_gen_0 |         1|
 |3     |HDMI_TX       |         1|
 |4     |PS2_Mouse     |         1|
+|5     |RotaryEnc     |         1|
 +------+--------------+----------+
 
 Report Cell Usage: 
@@ -280,58 +292,61 @@ Report Cell Usage:
 +------+-------------------+------+
 |1     |HDMI_TX_bbox       |     1|
 |2     |PS2_Mouse_bbox     |     1|
-|3     |blk_mem_gen_0_bbox |     1|
-|4     |clk_wiz_0_bbox     |     1|
-|5     |CARRY8             |    14|
-|6     |DSP_ALU            |     3|
-|7     |DSP_A_B_DATA       |     3|
-|9     |DSP_C_DATA         |     3|
-|11    |DSP_MULTIPLIER     |     3|
-|12    |DSP_M_DATA         |     3|
-|13    |DSP_OUTPUT         |     3|
-|14    |DSP_PREADD         |     3|
-|15    |DSP_PREADD_DATA    |     3|
-|16    |LUT1               |    25|
-|17    |LUT2               |    64|
-|18    |LUT3               |    37|
-|19    |LUT4               |    40|
-|20    |LUT5               |    28|
-|21    |LUT6               |    30|
-|22    |FDRE               |   105|
-|23    |FDSE               |     7|
-|24    |IBUF               |     1|
-|25    |OBUF               |     8|
+|3     |RotaryEnc_bbox     |     1|
+|4     |blk_mem_gen_0_bbox |     1|
+|5     |clk_wiz_0_bbox     |     1|
+|6     |CARRY8             |    44|
+|7     |DSP_ALU            |     3|
+|8     |DSP_A_B_DATA       |     3|
+|10    |DSP_C_DATA         |     3|
+|12    |DSP_MULTIPLIER     |     3|
+|13    |DSP_M_DATA         |     3|
+|14    |DSP_OUTPUT         |     3|
+|15    |DSP_PREADD         |     3|
+|16    |DSP_PREADD_DATA    |     3|
+|17    |LUT1               |   132|
+|18    |LUT2               |   159|
+|19    |LUT3               |    27|
+|20    |LUT4               |    78|
+|21    |LUT5               |    55|
+|22    |LUT6               |    54|
+|23    |FDRE               |   135|
+|24    |FDSE               |    14|
+|25    |IBUF               |     7|
+|26    |OBUF               |    12|
 +------+-------------------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 2809.379 ; gain = 1327.863
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:39 ; elapsed = 00:00:40 . Memory (MB): peak = 2811.535 ; gain = 1332.469
 ---------------------------------------------------------------------------------
 Synthesis finished with 0 errors, 0 critical warnings and 1 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:25 ; elapsed = 00:00:33 . Memory (MB): peak = 2809.379 ; gain = 1223.793
-Synthesis Optimization Complete : Time (s): cpu = 00:00:39 ; elapsed = 00:00:40 . Memory (MB): peak = 2809.379 ; gain = 1327.863
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:25 ; elapsed = 00:00:33 . Memory (MB): peak = 2811.535 ; gain = 1226.039
+Synthesis Optimization Complete : Time (s): cpu = 00:00:39 ; elapsed = 00:00:41 . Memory (MB): peak = 2811.535 ; gain = 1332.469
 INFO: [Project 1-571] Translating synthesized netlist
 Parsing EDIF File [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/HDMI_TX/HDMI_TX.edf]
 Finished Parsing EDIF File [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/HDMI_TX/HDMI_TX.edf]
 Parsing EDIF File [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/Downloads/PS2_Mouse.edf]
 Finished Parsing EDIF File [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/Downloads/PS2_Mouse.edf]
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.006 . Memory (MB): peak = 2809.379 ; gain = 0.000
-INFO: [Netlist 29-17] Analyzing 23 Unisim elements for replacement
+Parsing EDIF File [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/RotaryEnc/RotaryEnc.edf]
+Finished Parsing EDIF File [C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/RotaryEnc/RotaryEnc.edf]
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.012 . Memory (MB): peak = 2811.535 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 59 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-479] Netlist was created with Vivado 2025.1
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2809.379 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2811.535 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
-  A total of 6 instances were transformed.
+  A total of 12 instances were transformed.
   DSP48E2 => DSP48E2 (DSP_ALU, DSP_A_B_DATA, DSP_C_DATA, DSP_MULTIPLIER, DSP_M_DATA, DSP_OUTPUT, DSP_PREADD, DSP_PREADD_DATA): 3 instances
-  IBUF => IBUF (IBUFCTRL, INBUF): 1 instance 
+  IBUF => IBUF (IBUFCTRL, INBUF): 7 instances
   IOBUF => IOBUF (IBUFCTRL, INBUF, OBUFT): 2 instances
 
-Synth Design complete | Checksum: b78d8eaf
+Synth Design complete | Checksum: a928c2fc
 INFO: [Common 17-83] Releasing license: Synthesis
-42 Infos, 2 Warnings, 0 Critical Warnings and 0 Errors encountered.
+45 Infos, 2 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:44 ; elapsed = 00:00:47 . Memory (MB): peak = 2809.379 ; gain = 2251.020
-Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.003 . Memory (MB): peak = 2809.379 ; gain = 0.000
+synth_design: Time (s): cpu = 00:00:45 ; elapsed = 00:00:48 . Memory (MB): peak = 2811.535 ; gain = 2255.082
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.003 . Memory (MB): peak = 2811.535 ; gain = 0.000
 INFO: [Common 17-1381] The checkpoint 'C:/Users/lab/Desktop/mini-paint/mini-paint.runs/synth_1/paint_top.dcp' has been generated.
 INFO: [Vivado 12-24828] Executing command : report_utilization -file paint_top_utilization_synth.rpt -pb paint_top_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Tue Apr 28 09:58:52 2026...
+INFO: [Common 17-206] Exiting Vivado at Tue May 12 09:19:16 2026...

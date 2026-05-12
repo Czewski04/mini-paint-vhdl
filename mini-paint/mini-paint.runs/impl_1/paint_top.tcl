@@ -97,8 +97,6 @@ proc step_failed { step } {
 OPTRACE "impl_1" END { }
 }
 
-set_msg_config -id {Synth 8-256} -limit 10000
-set_msg_config -id {Synth 8-638} -limit 10000
 
 OPTRACE "impl_1" START { ROLLUP_1 }
 OPTRACE "Phase: Init Design" START { ROLLUP_AUTO }
@@ -109,8 +107,6 @@ set rc [catch {
   set_param general.maxThreads 6
   set_param chipscope.maxJobs 3
   set_param general.usePosixSpawnForFork 1
-  set_param synth.incrementalSynthesisCache C:/Users/lab/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-5936-Lab016-02/incrSyn
-  set_param checkpoint.writeSynthRtdsInDcp 1
   set_param xicom.use_bs_reader 1
   set_param runs.launchOptions { -jobs 6  }
 OPTRACE "create in-memory project" START { }
@@ -132,8 +128,9 @@ OPTRACE "set parameters" END { }
 OPTRACE "add files" START { }
   add_files -quiet C:/Users/lab/Desktop/mini-paint/mini-paint.runs/synth_1/paint_top.dcp
   read_ip -quiet C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.xci
-  read_ip -quiet c:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0.xci
+  read_ip -quiet C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0.xci
   read_edif C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/HDMI_TX/HDMI_TX.edf
+  read_edif C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/RotaryEnc/RotaryEnc.edf
   read_edif C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/Downloads/PS2_Mouse.edf
 OPTRACE "read constraints: implementation" START { }
   read_xdc C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/constrs_1/new/zu3.xdc

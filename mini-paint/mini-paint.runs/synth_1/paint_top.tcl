@@ -59,11 +59,7 @@ OPTRACE "synth_1" START { ROLLUP_AUTO }
 set_param general.maxThreads 6
 set_param chipscope.maxJobs 3
 set_param general.usePosixSpawnForFork 1
-set_param synth.incrementalSynthesisCache C:/Users/lab/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-5936-Lab016-02/incrSyn
-set_param checkpoint.writeSynthRtdsInDcp 1
 set_param xicom.use_bs_reader 1
-set_msg_config -id {Synth 8-256} -limit 10000
-set_msg_config -id {Synth 8-638} -limit 10000
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xczu3eg-sfvc784-2-e
 
@@ -87,6 +83,7 @@ OPTRACE "Adding files" START { }
 read_vhdl -library xil_defaultlib {
   C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/HDMI_TX/HDMI_TX_wrap.vhd
   C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/Downloads/PS2_Mouse_wrap.vhd
+  C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/RotaryEnc/RotaryEnc_wrap.vhd
   C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/img_gen.vhd
   C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/video_timing.vhd
   C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/paint_top.vhd
@@ -96,10 +93,11 @@ set_property used_in_implementation false [get_files -all c:/Users/lab/Desktop/m
 set_property used_in_implementation false [get_files -all c:/Users/lab/Desktop/mini-paint/mini-paint.gen/sources_1/ip/clk_wiz_0/clk_wiz_0.xdc]
 set_property used_in_implementation false [get_files -all c:/Users/lab/Desktop/mini-paint/mini-paint.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_ooc.xdc]
 
-read_ip -quiet c:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0.xci
+read_ip -quiet C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0.xci
 set_property used_in_implementation false [get_files -all c:/Users/lab/Desktop/mini-paint/mini-paint.gen/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0_ooc.xdc]
 
 read_edif C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/HDMI_TX/HDMI_TX.edf
+read_edif C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/RotaryEnc/RotaryEnc.edf
 read_edif C:/Users/lab/Desktop/mini-paint/mini-paint.srcs/sources_1/imports/Downloads/PS2_Mouse.edf
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being

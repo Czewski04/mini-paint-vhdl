@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date         : Tue Apr 28 09:59:42 2026
+| Date         : Tue May 12 09:20:06 2026
 | Host         : Lab016-02 running 64-bit major release  (build 9200)
 | Command      : report_drc -file paint_top_drc_opted.rpt -pb paint_top_drc_opted.pb -rpx paint_top_drc_opted.rpx
 | Design       : paint_top
@@ -37,12 +37,12 @@ Table of Contents
 -----------------
 DPIP-2#1 Warning
 Input pipelining  
-DSP s_write_addr0 input s_write_addr0/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP s_write_addr_calc0 input s_write_addr_calc0/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPIP-2#2 Warning
 Input pipelining  
-DSP s_write_addr0 input s_write_addr0/C[47:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP s_write_addr_calc0 input s_write_addr_calc0/C[47:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPOP-3#1 Warning
@@ -52,7 +52,7 @@ Related violations: <none>
 
 DPOP-3#2 Warning
 PREG Output pipelining  
-DSP s_write_addr0 output s_write_addr0/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+DSP s_write_addr_calc0 output s_write_addr_calc0/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
 Related violations: <none>
 
 DPOP-3#3 Warning
@@ -67,7 +67,7 @@ Related violations: <none>
 
 DPOP-4#2 Warning
 MREG Output pipelining  
-DSP s_write_addr0 multiplier stage s_write_addr0/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
+DSP s_write_addr_calc0 multiplier stage s_write_addr_calc0/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
 Related violations: <none>
 
 DPOP-4#3 Warning

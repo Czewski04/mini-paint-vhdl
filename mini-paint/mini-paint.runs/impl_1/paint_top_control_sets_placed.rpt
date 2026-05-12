@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date         : Tue Apr 28 10:02:16 2026
+| Date         : Tue May 12 09:21:33 2026
 | Host         : Lab016-02 running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file paint_top_control_sets_placed.rpt
 | Design       : paint_top
@@ -23,11 +23,11 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Total control sets                                       |    26 |
-|    Minimum number of control sets                        |    26 |
+| Total control sets                                       |    30 |
+|    Minimum number of control sets                        |    30 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |    41 |
+| Unused register locations in slices containing registers |    45 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -39,15 +39,15 @@ Table of Contents
 +--------------------+-------+
 |       Fanout       | Count |
 +--------------------+-------+
-| Total control sets |    26 |
-| >= 0 to < 4        |     7 |
+| Total control sets |    30 |
+| >= 0 to < 4        |     8 |
 | >= 4 to < 6        |     3 |
 | >= 6 to < 8        |     1 |
-| >= 8 to < 10       |     3 |
+| >= 8 to < 10       |     5 |
 | >= 10 to < 12      |     7 |
 | >= 12 to < 14      |     1 |
 | >= 14 to < 16      |     1 |
-| >= 16              |     3 |
+| >= 16              |     4 |
 +--------------------+-------+
 * Control sets can be remapped at either synth_design or opt_design
 
@@ -58,47 +58,51 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |              60 |           23 |
+| No           | No                    | No                     |              65 |           25 |
 | No           | No                    | Yes                    |               0 |            0 |
-| No           | Yes                   | No                     |             115 |           40 |
-| Yes          | No                    | No                     |              27 |            7 |
+| No           | Yes                   | No                     |             126 |           36 |
+| Yes          | No                    | No                     |              48 |           12 |
 | Yes          | No                    | Yes                    |               0 |            0 |
-| Yes          | Yes                   | No                     |              77 |           17 |
+| Yes          | Yes                   | No                     |              84 |           29 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
 4. Detailed Control Set Information
 -----------------------------------
 
-+------------------------------+------------------------------------------------+-----------------------------------------+------------------+----------------+--------------+
-|         Clock Signal         |                  Enable Signal                 |             Set/Reset Signal            | Slice Load Count | Bel Load Count | Bels / Slice |
-+------------------------------+------------------------------------------------+-----------------------------------------+------------------+----------------+--------------+
-|  u_clk_wiz_0/inst/clk_100MHz | u_ps2_mouse/i_wrap/B1_Status0                  |                                         |                1 |              1 |         1.00 |
-|  u_clk_wiz_0/inst/clk_125MHz |                                                |                                         |                1 |              1 |         1.00 |
-|  u_clk_wiz_0/inst/clk_125MHz |                                                | u_img_gen/SR[0]                         |                2 |              2 |         1.00 |
-|  u_clk_wiz_0/inst/clk_125MHz |                                                | u_hdmi_tx/i_wrap/cntMod5[2]_i_1__1_n_0  |                1 |              3 |         3.00 |
-|  u_clk_wiz_0/inst/clk_125MHz |                                                | u_hdmi_tx/i_wrap/cntMod5[2]_i_1_n_0     |                1 |              3 |         3.00 |
-|  u_clk_wiz_0/inst/clk_125MHz |                                                | u_hdmi_tx/i_wrap/cntMod5[2]_i_1__0_n_0  |                1 |              3 |         3.00 |
-|  u_clk_wiz_0/inst/clk_125MHz |                                                | u_hdmi_tx/i_wrap/cntMod5[2]_i_1__2_n_0  |                1 |              3 |         3.00 |
-|  u_clk_wiz_0/inst/clk_100MHz | u_ps2_mouse/i_wrap/PS_ClkHL                    | u_ps2_mouse/i_wrap/WDogRst              |                1 |              4 |         4.00 |
-|  u_clk_wiz_0/inst/clk_100MHz | u_ps2_mouse/i_wrap/PS_Samp                     | u_ps2_mouse/i_wrap/PS_ClkHL             |                1 |              4 |         4.00 |
-|  u_clk_wiz_0/inst/clk_125MHz | u_ps2_mouse/s_mouse_data_rdy_last_reg          | u_ps2_mouse/s_mouse_data_rdy_last_reg_1 |                2 |              5 |         2.50 |
-|  u_clk_wiz_0/inst/clk_125MHz | u_ps2_mouse/s_mouse_data_rdy_last_reg          | s_cursor_y[7]_i_1_n_0                   |                3 |              6 |         2.00 |
-|  u_clk_wiz_0/inst/clk_100MHz | u_ps2_mouse/i_wrap/B2_X0                       |                                         |                3 |              8 |         2.67 |
-|  u_clk_wiz_0/inst/clk_100MHz | u_ps2_mouse/i_wrap/B3_Y0                       |                                         |                2 |              8 |         4.00 |
-|  u_clk_wiz_0/inst/clk_125MHz | u_ps2_mouse/s_mouse_data_rdy_last_reg          | u_ps2_mouse/s_mouse_data_rdy_last_reg_0 |                1 |              8 |         8.00 |
-|  u_clk_wiz_0/inst/clk_100MHz | u_ps2_mouse/i_wrap/FSM_onehot_State[8]_i_1_n_0 | u_img_gen/SR[0]                         |                1 |             10 |        10.00 |
-|  u_clk_wiz_0/inst/clk_100MHz | u_ps2_mouse/i_wrap/PS_ClkHL                    |                                         |                1 |             10 |        10.00 |
-|  u_clk_wiz_0/inst/clk_100MHz | u_ps2_mouse/i_wrap/srCmdF41                    | u_ps2_mouse/i_wrap/srCmdF4              |                1 |             10 |        10.00 |
-|  u_clk_wiz_0/inst/clk_125MHz | u_img_gen/addr_calc_i_1_n_0                    | u_img_gen/SR[0]                         |                2 |             10 |         5.00 |
-|  u_clk_wiz_0/inst/clk_125MHz | u_img_gen/s_init_in                            | u_img_gen/SR[0]                         |                2 |             10 |         5.00 |
-|  u_clk_wiz_0/inst/clk_25MHz  |                                                | u_video_timing/SR[0]                    |                2 |             10 |         5.00 |
-|  u_clk_wiz_0/inst/clk_25MHz  | u_video_timing/cntX_TC                         | u_video_timing/cntY_reg[8]_0[0]         |                3 |             10 |         3.33 |
-|  u_clk_wiz_0/inst/clk_25MHz  |                                                | u_hdmi_tx/i_wrap/Cnt[4]_i_1_n_0         |               10 |             12 |         1.20 |
-|  u_clk_wiz_0/inst/clk_100MHz |                                                |                                         |                5 |             14 |         2.80 |
-|  u_clk_wiz_0/inst/clk_125MHz |                                                | u_video_timing/s_sys_reset_n            |               11 |             33 |         3.00 |
-|  u_clk_wiz_0/inst/clk_25MHz  |                                                |                                         |               18 |             45 |         2.50 |
-|  u_clk_wiz_0/inst/clk_25MHz  |                                                | u_img_gen/SR[0]                         |               15 |             46 |         3.07 |
-+------------------------------+------------------------------------------------+-----------------------------------------+------------------+----------------+--------------+
++------------------------------+------------------------------------------------+---------------------------------------------+------------------+----------------+--------------+
+|         Clock Signal         |                  Enable Signal                 |               Set/Reset Signal              | Slice Load Count | Bel Load Count | Bels / Slice |
++------------------------------+------------------------------------------------+---------------------------------------------+------------------+----------------+--------------+
+|  u_clk_wiz_0/inst/clk_100MHz | u_ps2_mouse/i_wrap/B1_Status0                  |                                             |                1 |              2 |         2.00 |
+|  u_clk_wiz_0/inst/clk_125MHz | u_rotary_encoder/bbstub_RotL                   | u_ps2_mouse/s_color_val_b_reg[7][0]         |                1 |              2 |         2.00 |
+|  u_clk_wiz_0/inst/clk_125MHz |                                                | u_hdmi_tx/i_wrap/cntMod5[2]_i_1__0_n_0      |                1 |              3 |         3.00 |
+|  u_clk_wiz_0/inst/clk_125MHz |                                                | u_hdmi_tx/i_wrap/cntMod5[2]_i_1__1_n_0      |                1 |              3 |         3.00 |
+|  u_clk_wiz_0/inst/clk_125MHz |                                                | u_hdmi_tx/i_wrap/cntMod5[2]_i_1__2_n_0      |                1 |              3 |         3.00 |
+|  u_clk_wiz_0/inst/clk_125MHz |                                                | u_hdmi_tx/i_wrap/cntMod5[2]_i_1_n_0         |                1 |              3 |         3.00 |
+|  u_clk_wiz_0/inst/clk_125MHz | u_rotary_encoder/i_sw[1]_0                     | u_ps2_mouse/s_color_val_r_reg[5][0]         |                1 |              3 |         3.00 |
+|  u_clk_wiz_0/inst/clk_125MHz | u_rotary_encoder/i_sw[1]                       | u_ps2_mouse/s_color_val_g_reg[5][0]         |                2 |              3 |         1.50 |
+|  u_clk_wiz_0/inst/clk_100MHz | u_ps2_mouse/i_wrap/PS_ClkHL                    | u_ps2_mouse/i_wrap/WDogRst                  |                2 |              4 |         2.00 |
+|  u_clk_wiz_0/inst/clk_100MHz | u_ps2_mouse/i_wrap/PS_Samp                     | u_ps2_mouse/i_wrap/PS_ClkHL                 |                1 |              4 |         4.00 |
+|  u_clk_wiz_0/inst/clk_125MHz |                                                | u_img_gen/SR[0]                             |                3 |              4 |         1.33 |
+|  u_clk_wiz_0/inst/clk_125MHz |                                                |                                             |                1 |              6 |         6.00 |
+|  u_clk_wiz_0/inst/clk_100MHz | u_ps2_mouse/i_wrap/B3_Y0                       |                                             |                2 |              8 |         4.00 |
+|  u_clk_wiz_0/inst/clk_100MHz | u_ps2_mouse/i_wrap/B2_X0                       |                                             |                4 |              8 |         2.00 |
+|  u_clk_wiz_0/inst/clk_125MHz |                                                | u_ps2_mouse/i_reset_n[0]                    |                2 |              9 |         4.50 |
+|  u_clk_wiz_0/inst/clk_125MHz | u_rotary_encoder/E[0]                          | u_img_gen/SR[0]                             |                4 |              9 |         2.25 |
+|  u_clk_wiz_0/inst/clk_125MHz | s_draw_y_offset[8]_i_2_n_0                     | u_ps2_mouse/s_draw_y_offset_reg[8]_i_4_0[0] |                2 |              9 |         4.50 |
+|  u_clk_wiz_0/inst/clk_100MHz | u_ps2_mouse/i_wrap/FSM_onehot_State[8]_i_1_n_0 | u_img_gen/SR[0]                             |                4 |             10 |         2.50 |
+|  u_clk_wiz_0/inst/clk_100MHz | u_ps2_mouse/i_wrap/PS_ClkHL                    |                                             |                3 |             10 |         3.33 |
+|  u_clk_wiz_0/inst/clk_100MHz | u_ps2_mouse/i_wrap/srCmdF41                    | u_ps2_mouse/i_wrap/srCmdF4                  |                3 |             10 |         3.33 |
+|  u_clk_wiz_0/inst/clk_125MHz | u_img_gen/addr_calc_i_1_n_0                    | u_img_gen/SR[0]                             |                2 |             10 |         5.00 |
+|  u_clk_wiz_0/inst/clk_125MHz | u_img_gen/s_init_in                            | u_img_gen/SR[0]                             |                4 |             10 |         2.50 |
+|  u_clk_wiz_0/inst/clk_25MHz  |                                                | u_video_timing/SR[0]                        |                4 |             10 |         2.50 |
+|  u_clk_wiz_0/inst/clk_25MHz  | u_video_timing/cntX_TC                         | u_video_timing/cntY_reg[1]_0[0]             |                3 |             10 |         3.33 |
+|  u_clk_wiz_0/inst/clk_25MHz  |                                                | u_hdmi_tx/i_wrap/Cnt[4]_i_1_n_0             |               10 |             12 |         1.20 |
+|  u_clk_wiz_0/inst/clk_100MHz |                                                |                                             |                6 |             14 |         2.33 |
+|  u_clk_wiz_0/inst/clk_125MHz | u_ps2_mouse/s_cursor_y                         |                                             |                5 |             20 |         4.00 |
+|  u_clk_wiz_0/inst/clk_125MHz |                                                | u_video_timing/s_sys_reset_n                |               10 |             33 |         3.30 |
+|  u_clk_wiz_0/inst/clk_25MHz  |                                                |                                             |               18 |             45 |         2.50 |
+|  u_clk_wiz_0/inst/clk_25MHz  |                                                | u_img_gen/SR[0]                             |                7 |             46 |         6.57 |
++------------------------------+------------------------------------------------+---------------------------------------------+------------------+----------------+--------------+
 
 

@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date         : Tue Apr 28 10:03:18 2026
+| Date         : Tue May 12 09:22:40 2026
 | Host         : Lab016-02 running 64-bit major release  (build 9200)
 | Command      : report_methodology -file paint_top_methodology_drc_routed.rpt -pb paint_top_methodology_drc_routed.pb -rpx paint_top_methodology_drc_routed.rpx
 | Design       : paint_top
@@ -23,12 +23,11 @@ Table of Contents
           Floorplan: design_1
       Design limits: <entire design considered>
              Max checks: <unlimited>
-             Checks found: 14
+             Checks found: 8
 +-----------+----------+---------------------------------------------------------+--------+
 | Rule      | Severity | Description                                             | Checks |
 +-----------+----------+---------------------------------------------------------+--------+
 | LUTAR-1   | Warning  | LUT drives async reset alert                            | 1      |
-| SYNTH-14  | Warning  | DSP cannot absorb non-zero init register                | 6      |
 | TIMING-18 | Warning  | Missing input or output delay                           | 5      |
 | CLKC-24   | Advisory | MMCME4 with ZHOLD drives sequential IO not with CLKOUT0 | 2      |
 +-----------+----------+---------------------------------------------------------+--------+
@@ -45,36 +44,6 @@ u_hdmi_tx/i_wrap/TMDS_2/i_ODDRE_N/RST,
 u_hdmi_tx/i_wrap/TMDS_2/i_ODDRE_P/RST,
 u_hdmi_tx/i_wrap/TMDS_3/i_ODDRE_N/RST
 u_hdmi_tx/i_wrap/TMDS_3/i_ODDRE_P/RST. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
-Related violations: <none>
-
-SYNTH-14#1 Warning
-DSP cannot absorb non-zero init register  
-Register s_cursor_x_reg[6] cannot be absorbed into DSP block due to its non-zero INIT value.
-Related violations: <none>
-
-SYNTH-14#2 Warning
-DSP cannot absorb non-zero init register  
-Register s_cursor_x_reg[8] cannot be absorbed into DSP block due to its non-zero INIT value.
-Related violations: <none>
-
-SYNTH-14#3 Warning
-DSP cannot absorb non-zero init register  
-Register s_cursor_y_reg[4] cannot be absorbed into DSP block due to its non-zero INIT value.
-Related violations: <none>
-
-SYNTH-14#4 Warning
-DSP cannot absorb non-zero init register  
-Register s_cursor_y_reg[5] cannot be absorbed into DSP block due to its non-zero INIT value.
-Related violations: <none>
-
-SYNTH-14#5 Warning
-DSP cannot absorb non-zero init register  
-Register s_cursor_y_reg[6] cannot be absorbed into DSP block due to its non-zero INIT value.
-Related violations: <none>
-
-SYNTH-14#6 Warning
-DSP cannot absorb non-zero init register  
-Register s_cursor_y_reg[7] cannot be absorbed into DSP block due to its non-zero INIT value.
 Related violations: <none>
 
 TIMING-18#1 Warning

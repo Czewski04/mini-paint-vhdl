@@ -10,12 +10,12 @@ entity paint_top is
 
         io_ps2_data : inout STD_LOGIC;
         io_ps2_clk : inout STD_LOGIC;
-
-        i_rot_a : in STD_LOGIC;
-        i_rot_b : in STD_LOGIC;
-        -- 4 switche: [0]=rozmiar, [1]=R, [2]=G, [3]=B
+        
         i_sw    : in STD_LOGIC_VECTOR(3 downto 0);
         o_led   : out STD_LOGIC_VECTOR(3 downto 0);
+        
+        i_rot_a        : in STD_LOGIC;
+        i_rot_b        : in STD_LOGIC;
 
         o_hdmi_d0_p  : out STD_LOGIC;
         o_hdmi_d0_n  : out STD_LOGIC;
@@ -54,16 +54,6 @@ architecture structural of paint_top is
             addrb : IN STD_LOGIC_VECTOR(18 DOWNTO 0);
             dinb : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
             doutb : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
-        );
-    end component;
-
-    component RotaryEnc_wrap is
-        Port (
-            ROT_A : in std_logic;
-            ROT_B : in std_logic;
-            Clk   : in std_logic;
-            RotL  : out std_logic;
-            RotR  : out std_logic
         );
     end component;
 
@@ -117,20 +107,20 @@ architecture structural of paint_top is
     signal s_init_addr    : STD_LOGIC_VECTOR(18 downto 0);
     signal s_init_data    : STD_LOGIC_VECTOR(7 downto 0);
     signal s_init_done    : STD_LOGIC;
-
+    
     signal s_rot_l        : STD_LOGIC;
     signal s_rot_r        : STD_LOGIC;
     signal s_brush_size   : integer range 1 to 480 := 1;
 
     signal s_draw_x_offset : integer range 0 to 479 := 0;
     signal s_draw_y_offset : integer range 0 to 479 := 0;
-    signal s_draw_we       : STD_LOGIC := '0';
+    signal s_draw_in       : STD_LOGIC := '0';
     signal s_draw_erase_mode : STD_LOGIC := '0';
     signal s_paint_addr_x  : integer;
     signal s_paint_addr_y  : integer;
-    signal s_safe_we       : STD_LOGIC;
+    signal s_safe_in       : STD_LOGIC;
     signal s_write_addr_calc : STD_LOGIC_VECTOR(18 downto 0);
-
+    
     signal s_color_val_r : unsigned(7 downto 0) := (others => '0');
     signal s_color_val_g : unsigned(7 downto 0) := (others => '0');
     signal s_color_val_b : unsigned(7 downto 0) := (others => '0');
@@ -150,7 +140,7 @@ begin
     s_fb_dinb <= (others => '0');
 
     s_read_addr <= std_logic_vector(resize(unsigned(s_pixel_y) * 640 + unsigned(s_pixel_x), 19));
-
+    
     s_sw_count <= to_integer(unsigned(std_logic_vector'('0' & i_sw(0)))) +
                   to_integer(unsigned(std_logic_vector'('0' & i_sw(1)))) +
                   to_integer(unsigned(std_logic_vector'('0' & i_sw(2)))) +
@@ -176,8 +166,8 @@ begin
             PS2_Data   => io_ps2_data,
             PS2_Clk    => io_ps2_clk
         );
-
-    u_rotary_encoder: RotaryEnc_wrap
+        
+    u_rotary_encoder: entity work.RotaryEnc_wrap
         port map (
             ROT_A => i_rot_a,
             ROT_B => i_rot_b,
@@ -194,38 +184,53 @@ begin
                 s_color_val_r <= (others => '0');
                 s_color_val_g <= (others => '0');
                 s_color_val_b <= (others => '0');
+                
             elsif s_mouse_init_ok = '1' and s_interlock_ok = '1' then
                 if i_sw(0) = '1' then
-                    if s_rot_l = '1' and s_brush_size > 1 then s_brush_size <= s_brush_size - 1;
-                    elsif s_rot_r = '1' and s_brush_size < 480 then s_brush_size <= s_brush_size + 1;
+                    if s_rot_l = '1' and s_brush_size > 1 then
+                        s_brush_size <= s_brush_size - 1;
+                    elsif s_rot_r = '1' and s_brush_size < 128
+                        then s_brush_size <= s_brush_size + 1;
                     end if;
-                
+                    
                 elsif i_sw(1) = '1' then
                     if s_rot_l = '1' then
-                        if s_color_val_r >= 32 then s_color_val_r <= s_color_val_r - 32;
-                        else s_color_val_r <= (others => '0'); end if;
+                        if s_color_val_r >= 32 then
+                            s_color_val_r <= s_color_val_r - 32;
+                        else s_color_val_r <= (others => '0');
+                        end if;
                     elsif s_rot_r = '1' then
-                        if s_color_val_r <= 223 then s_color_val_r <= s_color_val_r + 32;
-                        else s_color_val_r <= to_unsigned(255, 8); end if;
+                        if s_color_val_r <= 223 then
+                            s_color_val_r <= s_color_val_r + 32;
+                        else s_color_val_r <= to_unsigned(255, 8);
+                        end if;
                     end if;
-
+                    
                 elsif i_sw(2) = '1' then
                     if s_rot_l = '1' then
-                        if s_color_val_g >= 32 then s_color_val_g <= s_color_val_g - 32;
-                        else s_color_val_g <= (others => '0'); end if;
+                        if s_color_val_g >= 32 then
+                            s_color_val_g <= s_color_val_g - 32;
+                        else s_color_val_g <= (others => '0');
+                        end if;
                     elsif s_rot_r = '1' then
-                        if s_color_val_g <= 223 then s_color_val_g <= s_color_val_g + 32;
-                        else s_color_val_g <= to_unsigned(255, 8); end if;
+                        if s_color_val_g <= 223 then
+                            s_color_val_g <= s_color_val_g + 32;
+                        else s_color_val_g <= to_unsigned(255, 8);
+                        end if;
                     end if;
-
+                    
                 elsif i_sw(3) = '1' then
                     if s_rot_l = '1' then
-                        if s_color_val_b >= 64 then s_color_val_b <= s_color_val_b - 64;
-                        else s_color_val_b <= (others => '0'); end if;
+                        if s_color_val_b >= 64 then
+                            s_color_val_b <= s_color_val_b - 64;
+                        else s_color_val_b <= (others => '0');
+                        end if;
                     elsif s_rot_r = '1' then
-                        if s_color_val_b <= 191 then s_color_val_b <= s_color_val_b + 64;
-                        else s_color_val_b <= to_unsigned(255, 8); end if;
-                    end if;
+                        if s_color_val_b <= 191 then
+                            s_color_val_b <= s_color_val_b + 64;
+                        else s_color_val_b <= to_unsigned(255, 8);
+                        end if;   
+                    end if;  
                 end if;
             end if;
         end if;
@@ -237,11 +242,11 @@ begin
             if s_sys_reset_n = '0' then
                 s_draw_x_offset <= 0;
                 s_draw_y_offset <= 0;
-                s_draw_we <= '0';
+                s_draw_in <= '0';
                 s_draw_erase_mode <= '0';
             else
                 if s_mouse_init_ok = '1' and (s_mouse_status(0) = '1' or s_mouse_status(1) = '1') then
-                    s_draw_we <= '1';
+                    s_draw_in <= '1';
                     s_draw_erase_mode <= s_mouse_status(1);
 
                     if s_draw_x_offset < s_brush_size - 1 then
@@ -255,14 +260,14 @@ begin
                         end if;
                     end if;
                 else
-                    s_draw_we <= '0';
+                    s_draw_in <= '0';
                     s_draw_erase_mode <= '0';
                     s_draw_x_offset <= 0;
                     s_draw_y_offset <= 0;
                 end if;
             end if;
         end if;
-    end process;
+    end process;    
 
     process(s_clk_125mhz)
         variable dx : integer;
@@ -336,11 +341,11 @@ begin
             Data     => s_init_data,
             InitDone => s_init_done
         );
-
+        
     s_paint_addr_x <= to_integer(s_cursor_x) - (s_brush_size / 2) + s_draw_x_offset;
     s_paint_addr_y <= to_integer(s_cursor_y) - (s_brush_size / 2) + s_draw_y_offset;
 
-    s_safe_we <= s_draw_we when (s_paint_addr_x >= 0 and s_paint_addr_x <= 639 and
+    s_safe_in <= s_draw_in when (s_paint_addr_x >= 0 and s_paint_addr_x <= 639 and
                                  s_paint_addr_y >= 0 and s_paint_addr_y <= 479) else '0';
 
     process(s_paint_addr_x, s_paint_addr_y)
@@ -353,13 +358,13 @@ begin
         end if;
     end process;
 
-    s_fb_ina(0) <= s_init_in when s_init_done = '0' else s_safe_we;
+    s_fb_ina(0) <= s_init_in when s_init_done = '0' else s_safe_in;
 
     s_write_addr <= s_init_addr when s_init_done = '0' else s_write_addr_calc;
 
     s_write_data <= s_init_data when s_init_done = '0' else
-                    "11111111" when s_draw_erase_mode = '1' else
-                    s_current_pixel_8bit;
+        x"FF" when s_draw_erase_mode = '1' else
+         s_current_pixel_8bit; 
         
     process(s_clk_25mhz)
     begin
@@ -389,7 +394,7 @@ begin
         r_bg := s_read_data(7 downto 5) & s_read_data(7 downto 5) & s_read_data(7 downto 6);
         g_bg := s_read_data(4 downto 2) & s_read_data(4 downto 2) & s_read_data(4 downto 3);
         b_bg := s_read_data(1 downto 0) & s_read_data(1 downto 0) & s_read_data(1 downto 0) & s_read_data(1 downto 0);
-
+        
         r_cursor := s_current_pixel_8bit(7 downto 5) & s_current_pixel_8bit(7 downto 5) & s_current_pixel_8bit(7 downto 6);
         g_cursor := s_current_pixel_8bit(4 downto 2) & s_current_pixel_8bit(4 downto 2) & s_current_pixel_8bit(4 downto 3);
         b_cursor := s_current_pixel_8bit(1 downto 0) & s_current_pixel_8bit(1 downto 0) & s_current_pixel_8bit(1 downto 0) & s_current_pixel_8bit(1 downto 0);
@@ -398,12 +403,12 @@ begin
         py := to_integer(unsigned(s_pixel_y_d2));
         cx := to_integer(s_cursor_x);
         cy := to_integer(s_cursor_y);
+        
+         x_min := cx - (s_brush_size / 2);
+         x_max := x_min + s_brush_size;
 
-        x_min := cx - (s_brush_size / 2);
-        x_max := x_min + s_brush_size;
-
-        y_min := cy - (s_brush_size / 2);
-        y_max := y_min + s_brush_size;
+         y_min := cy - (s_brush_size / 2);
+         y_max := y_min + s_brush_size;
 
         if (px >= x_min and px < x_max) and (py >= y_min and py < y_max) then
             s_color_r <= r_cursor;
@@ -414,13 +419,13 @@ begin
             s_color_g <= g_bg;
             s_color_b <= b_bg;
         end if;
-    end process;
+    end process;        
 
     u_hdmi_tx: entity work.HDMI_TX_wrap
         port map (
             pxClk      => s_clk_25mhz,
             pxClkX5    => s_clk_125mhz,
-            ResetN     => s_sys_reset_n
+            ResetN     => s_sys_reset_n,
             DE         => s_video_de_d2,
             HSync      => s_video_hsync_d2,
             VSync      => s_video_vsync_d2,
