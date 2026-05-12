@@ -157,6 +157,14 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PSRCDIR/sources_1/imports/ucisw2-projekt/paint_utils_pkg.vhd">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../mini-paint/mini-paint.srcs/sources_1/imports/ucisw2-projekt/paint_utils_pkg.vhd"/>
+          <Attr Name="ImportTime" Val="1778572000"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PSRCDIR/sources_1/imports/ucisw2-projekt/paint_top.vhd">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../mini-paint.old/mini-paint.srcs/sources_1/imports/ucisw2-projekt/paint_top.vhd"/>

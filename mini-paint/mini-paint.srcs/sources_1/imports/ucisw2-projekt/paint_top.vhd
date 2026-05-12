@@ -1,6 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
+use work.paint_utils_pkg.all;
 
 entity paint_top is
     Port ( 
@@ -131,6 +132,8 @@ architecture structural of paint_top is
     signal s_current_pixel_8bit : std_logic_vector(7 downto 0);
 
 begin
+    -- Globalny reset aktywny w stanie wysokim.
+    -- Logika startuje dopiero po zablokowaniu PLL i przy nieaktywnym i_reset_n.
     s_sys_reset_n <= s_pll_locked and not i_reset_n;
     s_mouse_reset <= not s_sys_reset_n;
     
@@ -139,7 +142,8 @@ begin
     s_fb_inb <= (others => '0');
     s_fb_dinb <= (others => '0');
 
-    s_read_addr <= std_logic_vector(resize(unsigned(s_pixel_y) * 640 + unsigned(s_pixel_x), 19));
+    -- Liniowy adres piksela aktualnie wyświetlanego przez tor wideo.
+    s_read_addr <= framebuffer_addr(to_integer(unsigned(s_pixel_x)), to_integer(unsigned(s_pixel_y)));
     
     s_sw_count <= to_integer(unsigned(std_logic_vector'('0' & i_sw(0)))) +
                   to_integer(unsigned(std_logic_vector'('0' & i_sw(1)))) +
@@ -150,9 +154,8 @@ begin
 
     o_led <= i_sw when s_interlock_ok = '1' else (others => '0');
 
-    s_current_pixel_8bit <= std_logic_vector(s_color_val_r(7 downto 5)) &
-                            std_logic_vector(s_color_val_g(7 downto 5)) &
-                            std_logic_vector(s_color_val_b(7 downto 6));
+    -- Kolor pędzla kodowany do formatu RGB332 (8 bitów na piksel).
+    s_current_pixel_8bit <= pack_rgb332(s_color_val_r, s_color_val_g, s_color_val_b);
 
     u_ps2_mouse: entity work.PS2_Mouse_wrap
         port map (
@@ -176,6 +179,9 @@ begin
             RotR  => s_rot_r
         );
 
+    -- Obsługa enkodera obrotowego.
+    -- W zależności od aktywnego przełącznika zmienia rozmiar pędzla albo
+    -- jedną ze składowych koloru (R/G/B) ze stałym krokiem.
     process(s_clk_125mhz)
     begin
         if rising_edge(s_clk_125mhz) then
@@ -236,6 +242,9 @@ begin
         end if;
     end process;
 
+    -- Generator współrzędnych zapisu dla "stempla" pędzla.
+    -- Dla wciśniętego przycisku myszy iteruje po obszarze kwadratu
+    -- o boku równym s_brush_size i wystawia tryb rysowania/kasowania.
     process(s_clk_125mhz)
     begin
         if rising_edge(s_clk_125mhz) then
@@ -269,6 +278,8 @@ begin
         end if;
     end process;    
 
+    -- Aktualizacja pozycji kursora na podstawie pakietów ruchu PS/2.
+    -- Pozycja jest saturacyjnie ograniczana do zakresu ramki 640x480.
     process(s_clk_125mhz)
         variable dx : integer;
         variable dy : integer;
@@ -348,11 +359,13 @@ begin
     s_safe_in <= s_draw_in when (s_paint_addr_x >= 0 and s_paint_addr_x <= 639 and
                                  s_paint_addr_y >= 0 and s_paint_addr_y <= 479) else '0';
 
+    -- Wyznaczenie adresu zapisu tylko dla współrzędnych mieszczących się
+    -- w granicach obrazu; poza ramką adres jest zerowany.
     process(s_paint_addr_x, s_paint_addr_y)
     begin
         if s_paint_addr_x >= 0 and s_paint_addr_x <= 639 and
            s_paint_addr_y >= 0 and s_paint_addr_y <= 479 then
-            s_write_addr_calc <= std_logic_vector(to_unsigned(s_paint_addr_y * 640 + s_paint_addr_x, 19));
+            s_write_addr_calc <= framebuffer_addr(s_paint_addr_x, s_paint_addr_y);
         else
             s_write_addr_calc <= (others => '0');
         end if;
@@ -366,6 +379,8 @@ begin
         x"FF" when s_draw_erase_mode = '1' else
          s_current_pixel_8bit; 
         
+    -- Dwustopniowe opóźnienie sygnałów synchronizacji i współrzędnych.
+    -- Wyrównuje pipeline odczytu RAM z danymi przekazywanymi do HDMI.
     process(s_clk_25mhz)
     begin
         if rising_edge(s_clk_25mhz) then
@@ -385,19 +400,22 @@ begin
         end if;
     end process;
     
+    -- Wybór koloru wyjściowego:
+    -- - tło pobrane z RAM (aktualny obraz),
+    -- - podgląd pędzla w obszarze kursora (kolor aktualnie wybrany).
     process(s_pixel_x_d2, s_pixel_y_d2, s_cursor_x, s_cursor_y, s_read_data, s_brush_size, s_current_pixel_8bit)
         variable px, py, cx, cy : integer;
         variable x_min, x_max, y_min, y_max : integer;
         variable r_bg, g_bg, b_bg : STD_LOGIC_VECTOR(7 downto 0);
         variable r_cursor, g_cursor, b_cursor : STD_LOGIC_VECTOR(7 downto 0);
     begin
-        r_bg := s_read_data(7 downto 5) & s_read_data(7 downto 5) & s_read_data(7 downto 6);
-        g_bg := s_read_data(4 downto 2) & s_read_data(4 downto 2) & s_read_data(4 downto 3);
-        b_bg := s_read_data(1 downto 0) & s_read_data(1 downto 0) & s_read_data(1 downto 0) & s_read_data(1 downto 0);
+        r_bg := rgb332_to_r(s_read_data);
+        g_bg := rgb332_to_g(s_read_data);
+        b_bg := rgb332_to_b(s_read_data);
         
-        r_cursor := s_current_pixel_8bit(7 downto 5) & s_current_pixel_8bit(7 downto 5) & s_current_pixel_8bit(7 downto 6);
-        g_cursor := s_current_pixel_8bit(4 downto 2) & s_current_pixel_8bit(4 downto 2) & s_current_pixel_8bit(4 downto 3);
-        b_cursor := s_current_pixel_8bit(1 downto 0) & s_current_pixel_8bit(1 downto 0) & s_current_pixel_8bit(1 downto 0) & s_current_pixel_8bit(1 downto 0);
+        r_cursor := rgb332_to_r(s_current_pixel_8bit);
+        g_cursor := rgb332_to_g(s_current_pixel_8bit);
+        b_cursor := rgb332_to_b(s_current_pixel_8bit);
 
         px := to_integer(unsigned(s_pixel_x_d2));
         py := to_integer(unsigned(s_pixel_y_d2));
