@@ -125,6 +125,7 @@ architecture structural of paint_top is
     signal s_draw_x_offset : integer range 0 to 479 := 0;
     signal s_draw_y_offset : integer range 0 to 479 := 0;
     signal s_draw_we       : STD_LOGIC := '0';
+    signal s_draw_erase_mode : STD_LOGIC := '0';
     signal s_paint_addr_x  : integer;
     signal s_paint_addr_y  : integer;
     signal s_safe_we       : STD_LOGIC;
@@ -195,28 +196,35 @@ begin
                 s_color_val_b <= (others => '0');
             elsif s_mouse_init_ok = '1' and s_interlock_ok = '1' then
                 if i_sw(0) = '1' then
-                    if s_rot_l = '1' and s_brush_size > 1 then
-                        s_brush_size <= s_brush_size - 1;
-                    elsif s_rot_r = '1' and s_brush_size < 480 then
-                        s_brush_size <= s_brush_size + 1;
+                    if s_rot_l = '1' and s_brush_size > 1 then s_brush_size <= s_brush_size - 1;
+                    elsif s_rot_r = '1' and s_brush_size < 480 then s_brush_size <= s_brush_size + 1;
                     end if;
+                
                 elsif i_sw(1) = '1' then
-                    if s_rot_l = '1' and s_color_val_r > 0 then
-                        s_color_val_r <= s_color_val_r - 1;
-                    elsif s_rot_r = '1' and s_color_val_r < 255 then
-                        s_color_val_r <= s_color_val_r + 1;
+                    if s_rot_l = '1' then
+                        if s_color_val_r >= 32 then s_color_val_r <= s_color_val_r - 32;
+                        else s_color_val_r <= (others => '0'); end if;
+                    elsif s_rot_r = '1' then
+                        if s_color_val_r <= 223 then s_color_val_r <= s_color_val_r + 32;
+                        else s_color_val_r <= to_unsigned(255, 8); end if;
                     end if;
+
                 elsif i_sw(2) = '1' then
-                    if s_rot_l = '1' and s_color_val_g > 0 then
-                        s_color_val_g <= s_color_val_g - 1;
-                    elsif s_rot_r = '1' and s_color_val_g < 255 then
-                        s_color_val_g <= s_color_val_g + 1;
+                    if s_rot_l = '1' then
+                        if s_color_val_g >= 32 then s_color_val_g <= s_color_val_g - 32;
+                        else s_color_val_g <= (others => '0'); end if;
+                    elsif s_rot_r = '1' then
+                        if s_color_val_g <= 223 then s_color_val_g <= s_color_val_g + 32;
+                        else s_color_val_g <= to_unsigned(255, 8); end if;
                     end if;
+
                 elsif i_sw(3) = '1' then
-                    if s_rot_l = '1' and s_color_val_b > 0 then
-                        s_color_val_b <= s_color_val_b - 1;
-                    elsif s_rot_r = '1' and s_color_val_b < 255 then
-                        s_color_val_b <= s_color_val_b + 1;
+                    if s_rot_l = '1' then
+                        if s_color_val_b >= 64 then s_color_val_b <= s_color_val_b - 64;
+                        else s_color_val_b <= (others => '0'); end if;
+                    elsif s_rot_r = '1' then
+                        if s_color_val_b <= 191 then s_color_val_b <= s_color_val_b + 64;
+                        else s_color_val_b <= to_unsigned(255, 8); end if;
                     end if;
                 end if;
             end if;
@@ -230,9 +238,11 @@ begin
                 s_draw_x_offset <= 0;
                 s_draw_y_offset <= 0;
                 s_draw_we <= '0';
+                s_draw_erase_mode <= '0';
             else
                 if s_mouse_init_ok = '1' and (s_mouse_status(0) = '1' or s_mouse_status(1) = '1') then
                     s_draw_we <= '1';
+                    s_draw_erase_mode <= s_mouse_status(1);
 
                     if s_draw_x_offset < s_brush_size - 1 then
                         s_draw_x_offset <= s_draw_x_offset + 1;
@@ -246,6 +256,7 @@ begin
                     end if;
                 else
                     s_draw_we <= '0';
+                    s_draw_erase_mode <= '0';
                     s_draw_x_offset <= 0;
                     s_draw_y_offset <= 0;
                 end if;
@@ -347,7 +358,7 @@ begin
     s_write_addr <= s_init_addr when s_init_done = '0' else s_write_addr_calc;
 
     s_write_data <= s_init_data when s_init_done = '0' else
-                    "11111111" when s_mouse_status(1) = '1' else
+                    "11111111" when s_draw_erase_mode = '1' else
                     s_current_pixel_8bit;
         
     process(s_clk_25mhz)
@@ -409,7 +420,7 @@ begin
         port map (
             pxClk      => s_clk_25mhz,
             pxClkX5    => s_clk_125mhz,
-            ResetN     => s_sys_reset_n,
+            ResetN     => s_sys_reset_n
             DE         => s_video_de_d2,
             HSync      => s_video_hsync_d2,
             VSync      => s_video_vsync_d2,
